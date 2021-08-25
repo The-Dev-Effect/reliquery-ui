@@ -1,6 +1,7 @@
 from typing import List
 
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
@@ -22,11 +23,21 @@ def get_app(Relic=Relic):
         if not Relic.relic_exists(name=name, relic_type=relic_type):
             raise HTTPException(status_code=404, detail="Relic not found")
 
-        relic = Relic(name=name, relic_type=relic_type)
+        relic = Relic(name=name, relic_type=relic_type) 
 
         return relic_response(relic)
 
+    @app.get("/reliquery/{relic_type}/{name}/html/{html}", response_class=HTMLResponse)  
+    async def reliquery_html(relic_type: str, name: str, html: str) -> str:
+        if not Relic.relic_exists(name=name, relic_type=relic_type):
+            raise HTTPException(status_code=404, detail="Relic not found")
+
+        relic = Relic(name=name, relic_type=relic_type)
+
+        return relic.get_html(html)
+
     return app
+
 
 class RelicResponse(BaseModel):
     name: str
