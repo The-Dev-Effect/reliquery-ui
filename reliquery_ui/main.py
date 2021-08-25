@@ -7,6 +7,7 @@ from pydantic import BaseModel
 
 from reliquery import Relic
 
+
 def get_app(Relic=Relic):
     app = FastAPI()
 
@@ -23,11 +24,11 @@ def get_app(Relic=Relic):
         if not Relic.relic_exists(name=name, relic_type=relic_type):
             raise HTTPException(status_code=404, detail="Relic not found")
 
-        relic = Relic(name=name, relic_type=relic_type) 
+        relic = Relic(name=name, relic_type=relic_type)
 
         return relic_response(relic)
 
-    @app.get("/reliquery/{relic_type}/{name}/html/{html}", response_class=HTMLResponse)  
+    @app.get("/reliquery/{relic_type}/{name}/html/{html}", response_class=HTMLResponse)
     async def reliquery_html(relic_type: str, name: str, html: str) -> str:
         if not Relic.relic_exists(name=name, relic_type=relic_type):
             raise HTTPException(status_code=404, detail="Relic not found")
@@ -47,9 +48,8 @@ class RelicResponse(BaseModel):
 
 def relic_response(relic: Relic) -> RelicResponse:
     return RelicResponse(
-        name=relic.name,
-        relic_type=relic.relic_type,
-        arrays=relic.list_arrays(),
+        name=relic.name, relic_type=relic.relic_type, arrays=relic.list_arrays(),
     )
+
 
 app = get_app(Relic)

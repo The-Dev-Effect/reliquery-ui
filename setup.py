@@ -21,4 +21,3 @@ setup(
     tests_require=["pytest"],
     install_requires=install_requires,
 )
-
