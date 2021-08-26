@@ -48,7 +48,9 @@ class RelicResponse(BaseModel):
 
 def relic_response(relic: Relic) -> RelicResponse:
     return RelicResponse(
-        name=relic.name, relic_type=relic.relic_type, arrays=relic.list_arrays(),
+        name=relic.name,
+        relic_type=relic.relic_type,
+        arrays=relic.list_arrays(),
     )
 
 

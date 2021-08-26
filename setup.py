@@ -3,7 +3,7 @@ from setuptools import setup
 install_requires = [
     "reliquery",
     "numpy >= 1.16",
-    "black",
+    "black>=21",
     "fastapi[all]",
     "uvicorn",
 ]
