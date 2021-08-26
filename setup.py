@@ -5,6 +5,7 @@ install_requires = [
     "numpy >= 1.16",
     "black>=21",
     "fastapi[all]",
+    "requests",
     "uvicorn",
 ]
 
