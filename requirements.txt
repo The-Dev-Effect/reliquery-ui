@@ -2,4 +2,5 @@ reliquery
 numpy
 black
 fastapi
+requests
 uvicorn

@@ -4,7 +4,7 @@ Science's Artifact Antiformat
 
 ### Local Install
 ```bash
-cd reliquery_ui
+cd reliquery-ui
 pip install -e .
 cd frontend
 yarn install

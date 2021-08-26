@@ -15,9 +15,7 @@ class TestRelic:
         self.storage = None
 
     @classmethod
-    def relic_exists(
-            cls, name: str, relic_type: str, storage: str = None
-    ) -> bool:
+    def relic_exists(cls, name: str, relic_type: str, storage: str = None) -> bool:
         return True
 
     def list_arrays(self) -> List[str]:
@@ -29,4 +27,8 @@ def test_read_relic():
     client = TestClient(app)
     response = client.get("/reliquery/basic/tutorial")
     assert response.status_code == 200
-    assert response.json() == {"name": "tutorial", "relic_type": "basic", "arrays": ["ones"]}
+    assert response.json() == {
+        "name": "tutorial",
+        "relic_type": "basic",
+        "arrays": ["ones"],
+    }

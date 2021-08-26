@@ -3,8 +3,9 @@ from setuptools import setup
 install_requires = [
     "reliquery",
     "numpy >= 1.16",
-    "black",
+    "black>=21",
     "fastapi[all]",
+    "requests",
     "uvicorn",
 ]
 
@@ -21,4 +22,3 @@ setup(
     tests_require=["pytest"],
     install_requires=install_requires,
 )
-
