@@ -6,7 +6,7 @@ install_requires = [
     "black>=21",
     "fastapi[all]",
     "requests",
-    "uvicorn"
+    "uvicorn",
 ]
 
 
