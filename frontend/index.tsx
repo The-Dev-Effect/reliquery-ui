@@ -23,7 +23,7 @@ const Relic = () => {
   useEffect(() => {
     const fetchData = async () => {
       const result = await fetch(
-        `http://localhost:8000/reliquery/${relic_type}/${name}`
+        `http://localhost:8000/api/reliquery/${relic_type}/${name}`
       );
 
       const json = await result.json();
@@ -48,6 +48,7 @@ const Relic = () => {
     </Card>
   );
 };
+
 
 const App = () => {
   return (

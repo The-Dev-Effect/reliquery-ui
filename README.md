@@ -13,9 +13,10 @@ yarn install
 new shell
 ```bash
 cd frontend
+yarn build
 uvicorn reliquery_ui.main:app --reload
 ```
-new shell
+for dev gui
 ```bash
 cd frontend
 yarn start
@@ -26,7 +27,7 @@ A Relic can be shared via a link like:
 <br />
 {server}/reliquery/relic_type/relic_name
 <br />
-http://localhost:9000/reliquery/basic/tutorial
+http://localhost:8000/reliquery/basic/tutorial
 
 ### Web Api Exploration
 {server}/redoc
