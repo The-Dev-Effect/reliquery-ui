@@ -4,3 +4,4 @@ black
 fastapi
 requests
 uvicorn
+aiofiles
