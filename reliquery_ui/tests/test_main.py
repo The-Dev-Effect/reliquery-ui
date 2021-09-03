@@ -9,7 +9,9 @@ class TestRelic:
     relic_type: str
     storage: str
 
-    def __init__(self, name: str, relic_type: str, storage: str = None):
+    def __init__(
+        self, name: str, relic_type: str, storage: str = None, check_exists=False
+    ):
         self.name = name
         self.relic_type = relic_type
         self.storage = None
@@ -25,7 +27,7 @@ class TestRelic:
 def test_read_relic():
     app = get_app(TestRelic)
     client = TestClient(app)
-    response = client.get("/reliquery/basic/tutorial")
+    response = client.get("/api/reliquery/basic/tutorial")
     assert response.status_code == 200
     assert response.json() == {
         "name": "tutorial",

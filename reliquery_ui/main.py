@@ -1,16 +1,16 @@
-from typing import List
+import os
 
-from fastapi import FastAPI, HTTPException
-from fastapi.responses import HTMLResponse
+from fastapi import FastAPI
+from fastapi.requests import Request
+from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
 
+from .routers import relics
 from reliquery import Relic
 
 
 def get_app(Relic=Relic):
     app = FastAPI()
-
     app.add_middleware(
         CORSMiddleware,
         allow_origins=["*"],
@@ -19,39 +19,29 @@ def get_app(Relic=Relic):
         allow_headers=["*"],
     )
 
-    @app.get("/reliquery/{relic_type}/{name}", response_model=RelicResponse)
-    async def reliquery(relic_type: str, name: str) -> RelicResponse:
-        if not Relic.relic_exists(name=name, relic_type=relic_type):
-            raise HTTPException(status_code=404, detail="Relic not found")
+    app.include_router(relics.get_router(Relic), prefix="/api", tags=["relics"])
 
-        relic = Relic(name=name, relic_type=relic_type)
+    dist_path = "frontend/dist/"
+    index_path = dist_path + "/index.html"
 
-        return relic_response(relic)
+    @app.get("/", response_class=FileResponse)
+    def read_index(request: Request):
+        return FileResponse(index_path)
 
-    @app.get("/reliquery/{relic_type}/{name}/html/{html}", response_class=HTMLResponse)
-    async def reliquery_html(relic_type: str, name: str, html: str) -> str:
-        if not Relic.relic_exists(name=name, relic_type=relic_type):
-            raise HTTPException(status_code=404, detail="Relic not found")
+    @app.get("/{catchall:path}", response_class=FileResponse)
+    def read_index(request: Request):
+        # check first if requested file exists
+        path = request.path_params["catchall"]
+        file = dist_path + path
 
-        relic = Relic(name=name, relic_type=relic_type)
+        print("looking for: ", path, file)
+        if os.path.exists(file):
+            return FileResponse(file)
 
-        return relic.get_html(html)
+        # otherwise return index
+        return FileResponse(index_path)
 
     return app
-
-
-class RelicResponse(BaseModel):
-    name: str
-    relic_type: str
-    arrays: List[str]
-
-
-def relic_response(relic: Relic) -> RelicResponse:
-    return RelicResponse(
-        name=relic.name,
-        relic_type=relic.relic_type,
-        arrays=relic.list_arrays(),
-    )
 
 
 app = get_app(Relic)
