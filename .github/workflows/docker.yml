@@ -42,4 +42,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: the-dev-effect/reliquery-ui:latest
+          tags: ${{ env.REGISTRY }}/the-dev-effect/reliquery-ui:latest
