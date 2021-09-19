@@ -8,17 +8,27 @@ from typing import List, Any
 def get_router(Relic=Relic):
     router = APIRouter()
 
-    @router.get("/reliquery/{storage_name}/{relic_type}/{name}", response_model=RelicResponse)
+    @router.get(
+        "/reliquery/{storage_name}/{relic_type}/{name}", response_model=RelicResponse
+    )
     async def reliquery(storage_name: str, relic_type: str, name: str) -> RelicResponse:
-        if not Relic.relic_exists(name=name, relic_type=relic_type, storage_name=storage_name):
+        if not Relic.relic_exists(
+            name=name, relic_type=relic_type, storage_name=storage_name
+        ):
             raise HTTPException(status_code=404, detail="Relic not found")
 
-        relic = Relic(name=name, relic_type=relic_type, storage_name=storage_name, check_exists=False)
+        relic = Relic(
+            name=name,
+            relic_type=relic_type,
+            storage_name=storage_name,
+            check_exists=False,
+        )
 
         return relic_response(relic)
 
     @router.get(
-        "/reliquery/{storage_name}/{relic_type}/{name}/html/{html}", response_class=HTMLResponse
+        "/reliquery/{storage_name}/{relic_type}/{name}/html/{html}",
+        response_class=HTMLResponse,
     )
     async def reliquery_html(relic_type: str, name: str, html: str) -> str:
         if not Relic.relic_exists(name=name, relic_type=relic_type):
@@ -60,7 +70,7 @@ def relic_response(relic: Relic) -> RelicResponse:
         relic_type=relic.relic_type,
         arrays=description["arrays"],
         text=description["text"],
-        html=description["html"]
+        html=description["html"],
     )
 
 
