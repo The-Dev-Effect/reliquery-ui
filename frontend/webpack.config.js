@@ -10,6 +10,18 @@ module.exports = {
                 use: 'ts-loader',
                 exclude: /node_modules/,
             },
+            {
+                test: /\.s[ac]ss$/i,
+                use: ['style-loader', 'css-loader', 'sass-loader']
+            },
+            {
+                test: /\.(png|svg|jpg|jpeg|gif)$/i,
+                type: 'asset/resource',
+            },
+            {
+                test: /\.(woff|woff2|eot|ttf|otf)$/i,
+                type: 'asset/resource',
+            },
         ],
     },
     resolve: {
@@ -23,7 +35,7 @@ module.exports = {
     devServer: {
         historyApiFallback: {
             index: '/'
-        },   // TODO: Move any 404 over to 
+        },   // TODO: Move any 404 over to
         contentBase: path.join(__dirname, 'dist'),
         compress: true,
         port: 9000,
