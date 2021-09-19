@@ -64,7 +64,6 @@ class MetaData:
 def relic_response(relic: Relic) -> RelicResponse:
     description = relic.describe()[relic.name]
     RelicResponse.update_forward_refs()
-    print(description)
     return RelicResponse(
         name=relic.name,
         relic_type=relic.relic_type,
