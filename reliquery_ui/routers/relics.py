@@ -30,11 +30,20 @@ def get_router(Relic=Relic):
         "/reliquery/{storage_name}/{relic_type}/{name}/html/{html}",
         response_class=HTMLResponse,
     )
-    async def reliquery_html(relic_type: str, name: str, html: str) -> str:
-        if not Relic.relic_exists(name=name, relic_type=relic_type):
+    async def reliquery_html(
+        storage_name: str, relic_type: str, name: str, html: str
+    ) -> str:
+        if not Relic.relic_exists(
+            name=name, relic_type=relic_type, storage_name=storage_name
+        ):
             raise HTTPException(status_code=404, detail="Relic not found")
 
-        relic = Relic(name=name, relic_type=relic_type, check_exists=False)
+        relic = Relic(
+            name=name,
+            relic_type=relic_type,
+            storage_name=storage_name,
+            check_exists=False,
+        )
 
         return relic.get_html(html)
 

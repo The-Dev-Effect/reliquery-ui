@@ -14,6 +14,8 @@ import {
     ChakraProvider,
     CircularProgress,
     Heading,
+    LinkBox,
+    LinkOverlay,
     Stack,
     Table,
     Tbody,
@@ -79,11 +81,12 @@ const Relic = () => {
                         </Thead>
                         <Tbody>
                             {metaDatas.map(metaData => (
-                                <Tr>
+                                <LinkBox as={Tr}>
+                                    <LinkOverlay isExternal={true} href={metaData.data_type+"/"+metaData.name}></LinkOverlay>
                                     {Object.keys(metaData).map(key => (
                                         <Td>{metaData[key as keyof MetaData]}</Td>
                                     ))}
-                                </Tr>
+                                </LinkBox>
                             ))}
                         </Tbody>
                     </Table>
@@ -146,6 +149,35 @@ const Relic = () => {
     );
 };
 
+const Data = () => {
+    // @ts-ignore
+    const {storage_name, relic_type, name, data_type, data_name} = useParams();
+    const [data, setData] = useState<string>("");
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await fetch(
+                `/api/reliquery/${storage_name}/${relic_type}/${name}/${data_type}/${data_name}`
+            );
+
+            const json = await result.text();
+            setData(json);
+        };
+
+        fetchData();
+    }, []);
+
+    if (data === '') {
+        return <CircularProgress isIndeterminate/>;
+    }
+
+    return (
+        <Box m={2}>
+            <div dangerouslySetInnerHTML={{__html: data}}/>
+        </Box>
+    );
+};
+
 
 const App = () => {
         return (
@@ -154,6 +186,8 @@ const App = () => {
                     <div>
                         <Heading>Welcome to Reliquery!</Heading>
                         <Switch>
+                            <Route path="/reliquery/:storage_name/:relic_type/:name/:data_type/:data_name"
+                                   children={<Data/>}/>
                             <Route path="/reliquery/:storage_name/:relic_type/:name" children={<Relic/>}/>
                         </Switch>
                     </div>
