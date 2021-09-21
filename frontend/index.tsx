@@ -82,8 +82,9 @@ const Relic = () => {
                         <Tbody>
                             {metaDatas.map(metaData => (
                                 <LinkBox as={Tr}>
-                                    <LinkOverlay isExternal={true} href={metaData.data_type+"/"+metaData.name}></LinkOverlay>
-                                    {Object.keys(metaData).map(key => (
+                                    <LinkOverlay isExternal={true}
+                                                 href={metaData.data_type + "/" + metaData.name}></LinkOverlay>
+                                    {Object.keys(metaData).slice(1).map(key => (
                                         <Td>{metaData[key as keyof MetaData]}</Td>
                                     ))}
                                 </LinkBox>
