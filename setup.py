@@ -12,7 +12,7 @@ install_requires = [
 
 setup(
     name="reliquery_ui",
-    version="0.1.4",
+    version="0.1.5",
     description="Science's Artifact Antiformat",
     url="https://github.com/The-Dev-Effect/reliquery-ui",
     author="The Dev Effect",
