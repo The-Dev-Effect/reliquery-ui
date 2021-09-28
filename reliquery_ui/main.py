@@ -21,8 +21,9 @@ def get_app(Relic=Relic):
 
     app.include_router(relics.get_router(Relic), prefix="/api", tags=["relics"])
 
-    dist_path = "frontend/dist/"
-    index_path = dist_path + "/index.html"
+    rel_loc = os.path.dirname(__file__)
+    dist_path = os.path.join(os.path.split(rel_loc)[0], "frontend/dist/")
+    index_path = dist_path + "index.html"
 
     @app.get("/", response_class=FileResponse)
     def read_index(request: Request):
