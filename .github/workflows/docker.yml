@@ -5,9 +5,9 @@ name: Create and publish a Docker image
   #   types: [ closed ]
   #   branches: [ 'main' ]
 on:
-workflow_run:
-  workflows: ["Upload Python Package On Release"]
-  types: [completed]
+  workflow_run:
+    workflows: ["Upload Python Package On Release"]
+    types: [completed]
 
 env:
   REGISTRY: ghcr.io
