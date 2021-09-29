@@ -10,17 +10,9 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-<<<<<<< HEAD
-  build-and-push-image:
   on-success:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
-=======
-  on-success:
-    runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    runs-on: ubuntu-latest
->>>>>>> c192b42 (third)
     permissions:
       contents: read
       packages: write
