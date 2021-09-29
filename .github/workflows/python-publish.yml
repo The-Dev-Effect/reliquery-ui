@@ -17,8 +17,9 @@ jobs:
           node-version: '16'
       - name: Build Frontend
         working-directory: ./frontend
-        run: yarn install
-        run: yarn build
+        run: |
+          yarn install
+          yarn build
         
       - name: Set up Python
         uses: actions/setup-python@v2
