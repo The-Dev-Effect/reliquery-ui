@@ -1,13 +1,8 @@
 name: Create and publish a Docker image
 
-# on:
-  # pull_request:
-  #   types: [ closed ]
-  #   branches: [ 'main' ]
 on:
   workflow_run:
     workflows: ["Upload Python Package On Release"]
-    branches: [main, mike-pip]
     types: [completed]
 
 env:
