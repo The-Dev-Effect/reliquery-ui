@@ -11,6 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+<<<<<<< HEAD:.github/workflows/python-publish.yml
       - name: Setup node
         uses: actions/setup-node@v2
         with:
@@ -20,6 +21,15 @@ jobs:
         run: |
           yarn install
           yarn build
+=======
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+        working-directory: ./frontend
+        run: yarn install
+        run: yarn build
+>>>>>>> 167eaf9 (moving frontend build to github workflow from dockerfile):.github/workflows/python-publis.yml
         
       - name: Set up Python
         uses: actions/setup-python@v2

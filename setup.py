@@ -12,7 +12,11 @@ install_requires = [
 
 setup(
     name="reliquery_ui",
+<<<<<<< HEAD
     version="0.1.7",
+=======
+    version="0.1.6",
+>>>>>>> 167eaf9 (moving frontend build to github workflow from dockerfile)
     description="Science's Artifact Antiformat",
     url="https://github.com/The-Dev-Effect/reliquery-ui",
     author="The Dev Effect",
