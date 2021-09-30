@@ -18,7 +18,7 @@ setup(
     author="The Dev Effect",
     author_email="company@thedeveffect.com",
     license="MIT OR Apache-2.0",
-    packages=["reliquery_ui"],
+    packages=["reliquery_ui", "routers"],
     package_data={"reliquery_ui": ["../frontend/dist/*"]},
     tests_require=["pytest"],
     install_requires=install_requires,
