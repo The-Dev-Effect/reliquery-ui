@@ -36,7 +36,7 @@ module.exports = {
         historyApiFallback: {
             index: '/'
         },   // TODO: Move any 404 over to
-        contentBase: path.join(__dirname, 'dist'),
+        static: [path.join(__dirname, 'dist')],
         compress: true,
         port: 9000,
         hot: true

@@ -35,6 +35,7 @@ interface Relic {
     arrays: MetaData[]
     text: MetaData[]
     html: MetaData[]
+    images: MetaData[]
 }
 
 const Relic = () => {
@@ -45,12 +46,16 @@ const Relic = () => {
         relic_type: '',
         arrays: new Array<MetaData>(),
         text: new Array<MetaData>(),
-        html: new Array<MetaData>()
+        html: new Array<MetaData>(),
+        images: new Array<MetaData>(),
     });
 
     useEffect(() => {
         const fetchData = async () => {
             const result = await fetch(
+                // TODO: Make this switch based on dev mode 
+                // We should add a setting that sets the base path (localhost:8000 vs 9000 and 
+                // or even remote (suppose we served this at something like api.reliquery.com)
                 `/api/reliquery/${storage_name}/${relic_type}/${name}`
             );
 
@@ -144,6 +149,19 @@ const Relic = () => {
                             {createTable(relic.text)}
                         </AccordionPanel>
                     </AccordionItem>
+                    <AccordionItem>
+                        <h2>
+                            <AccordionButton>
+                                <AccordionIcon/>
+                                <Box flex="1" textAlign="left" m={2}>
+                                    IMAGES({relic.images.length})
+                                </Box>
+                            </AccordionButton>
+                        </h2>
+                        <AccordionPanel pb={4}>
+                            {createTable(relic.images)}
+                        </AccordionPanel>
+                    </AccordionItem>
                 </Accordion>
             </Stack>
         </Box>
@@ -172,11 +190,21 @@ const Data = () => {
         return <CircularProgress isIndeterminate/>;
     }
 
-    return (
-        <Box m={2}>
-            <div dangerouslySetInnerHTML={{__html: data}}/>
-        </Box>
-    );
+    if (data_type === "text") {
+        
+        return (
+            <Box m={2}>
+                <Heading as="h3" size="lg">{data_name}:</Heading>
+                <Text fontSize="lg">{data}</Text>
+            </Box>
+        )
+    } else {
+        return (
+            <Box m={2}>
+                <div dangerouslySetInnerHTML={{__html: data}}/>
+            </Box>
+        );
+    }
 };
 
 

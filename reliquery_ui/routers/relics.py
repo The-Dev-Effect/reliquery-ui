@@ -3,6 +3,7 @@ from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 from reliquery import Relic
 from typing import List, Any
+import base64
 
 
 def get_router(Relic=Relic):
@@ -47,6 +48,49 @@ def get_router(Relic=Relic):
 
         return relic.get_html(html)
 
+    @router.get(
+        "/reliquery/{storage_name}/{relic_type}/{name}/images/{image}",
+        response_class=HTMLResponse,
+    )
+    async def reliquery_images(
+        storage_name: str, relic_type: str, name: str, image: str
+    ) -> str:
+        if not Relic.relic_exists(
+            name=name, relic_type=relic_type, storage_name=storage_name
+        ):
+            raise HTTPException(status_code=404, detail="Relic not found")
+
+        relic = Relic(
+            name=name,
+            relic_type=relic_type,
+            storage_name=storage_name,
+            check_exists=False,
+        )
+
+        encoded = base64.b64encode(relic.get_image(image).read()).decode("utf-8")
+        return "<div><img src='data:image/png;base64,{}'></div>".format(encoded)
+
+    @router.get(
+        "/reliquery/{storage_name}/{relic_type}/{name}/text/{text}",
+        response_class=HTMLResponse,
+    )
+    async def reliquery_text(
+        storage_name: str, relic_type: str, name: str, text: str
+    ) -> str:
+        if not Relic.relic_exists(
+            name=name, relic_type=relic_type, storage_name=storage_name
+        ):
+            raise HTTPException(status_code=404, detail="Relic not found")
+
+        relic = Relic(
+            name=name,
+            relic_type=relic_type,
+            storage_name=storage_name,
+            check_exists=False,
+        )
+
+        return relic.get_text(text)
+
     return router
 
 
@@ -56,6 +100,7 @@ class RelicResponse(BaseModel):
     arrays: List[Any] = []
     text: List[Any] = []
     html: List[Any] = []
+    images: List[Any] = []
 
     class Config:
         arbitrary_types_allowed = True
@@ -79,6 +124,7 @@ def relic_response(relic: Relic) -> RelicResponse:
         arrays=description["arrays"],
         text=description["text"],
         html=description["html"],
+        images=description["images"],
     )
 
 
