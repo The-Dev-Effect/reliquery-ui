@@ -40,7 +40,7 @@ A Relic can be shared via a link like:
 <br />
 {server}/reliquery/storage_name/relic_type/relic_name
 <br />
-http://localhost:8000/reliquery/demo/basic/tutorial
+http://localhost:8000/reliquery/demo/tutorial/intro
 
 ### Web Api Exploration
 {server}/redoc
