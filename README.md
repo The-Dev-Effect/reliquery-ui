@@ -2,6 +2,19 @@
 Frontend for Reliquery
 Science's Artifact Antiformat
 
+## Quickstart
+Install Reliquery-UI using pip
+```
+$ pip install reliquery-ui
+```
+Run UI server
+```
+$ uvicorn reliquery_ui.main:app
+```
+Navigate to http://localhost:8000/reliquery/demo/tutorial/intro to view Relics
+
+## For development
+
 ### Local Install
 ```bash
 cd reliquery-ui
@@ -25,9 +38,9 @@ yarn start
 ### Link Location
 A Relic can be shared via a link like:
 <br />
-{server}/reliquery/relic_type/relic_name
+{server}/reliquery/storage_name/relic_type/relic_name
 <br />
-http://localhost:8000/reliquery/basic/tutorial
+http://localhost:8000/reliquery/demo/basic/tutorial
 
 ### Web Api Exploration
 {server}/redoc
