@@ -25,6 +25,7 @@ import {
     Thead,
     Tr
 } from "@chakra-ui/react"
+import { base_path } from "./path_config";
 
 
 type MetaData = Record<'name' | 'relic_type' | 'data_type' | 'size' | 'shape' | 'last_modified', string>
@@ -56,7 +57,7 @@ const Relic = () => {
                 // TODO: Make this switch based on dev mode 
                 // We should add a setting that sets the base path (localhost:8000 vs 9000 and 
                 // or even remote (suppose we served this at something like api.reliquery.com)
-                `/api/reliquery/${storage_name}/${relic_type}/${name}`
+                `${base_path}/api/reliquery/${storage_name}/${relic_type}/${name}`
             );
 
             const json = await result.json();
@@ -98,8 +99,6 @@ const Relic = () => {
                     </Table>
                 </>);
         }
-
-
     }
 
     return (
@@ -176,7 +175,7 @@ const Data = () => {
     useEffect(() => {
         const fetchData = async () => {
             const result = await fetch(
-                `/api/reliquery/${storage_name}/${relic_type}/${name}/${data_type}/${data_name}`
+                `${base_path}/api/reliquery/${storage_name}/${relic_type}/${name}/${data_type}/${data_name}`
             );
 
             const json = await result.text();
