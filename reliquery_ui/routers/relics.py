@@ -1,9 +1,10 @@
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import HTMLResponse
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from reliquery import Relic
 from typing import List, Any
 import base64
+import json
 
 
 def get_router(Relic=Relic):
@@ -91,6 +92,26 @@ def get_router(Relic=Relic):
 
         return relic.get_text(text)
 
+    @router.get(
+        "/reliquery/{storage_name}/{relic_type}/{name}/json/{json_name}",
+        response_class=HTMLResponse,
+    )
+    async def reliquery_json(
+        storage_name: str, relic_type: str, name: str, json_name: str
+    ) -> str:
+        if not Relic.relic_exists(
+            name=name, relic_type=relic_type, storage_name=storage_name
+        ):
+            raise HTTPException(status_code=404, detail="Relic not found")
+
+        relic = Relic(
+            name=name,
+            relic_type=relic_type,
+            storage_name=storage_name,
+            check_exists=False,
+        )
+        return json.dumps(relic.get_json(json_name), sort_keys=True, indent=4)
+
     return router
 
 
@@ -101,6 +122,7 @@ class RelicResponse(BaseModel):
     text: List[Any] = []
     html: List[Any] = []
     images: List[Any] = []
+    json_field: List[Any] = Field(alias="json")
 
     class Config:
         arbitrary_types_allowed = True
@@ -117,6 +139,8 @@ class MetaData:
 
 def relic_response(relic: Relic) -> RelicResponse:
     description = relic.describe()[relic.name]
+
+    # TODO: We will investigate this.
     RelicResponse.update_forward_refs()
     return RelicResponse(
         name=relic.name,
@@ -125,6 +149,7 @@ def relic_response(relic: Relic) -> RelicResponse:
         text=description["text"],
         html=description["html"],
         images=description["images"],
+        json=description["json"],
     )
 
 
