@@ -41,10 +41,6 @@ interface Relic {
     json: MetaData[]
 }
 
-interface Props {
-    json_data: MetaData[]
-}
-
 const Relic = () => {
     // @ts-ignore
     const {name, relic_type, storage_name} = useParams();
@@ -222,7 +218,6 @@ const Data = () => {
         )
         }
     else if(data_type === "json"){
-        console.log(data)
         return (
             <Box m={2}>
                 <Heading as="h3" size="lg">{data_name}:</Heading>
