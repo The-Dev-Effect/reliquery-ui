@@ -35,7 +35,9 @@ class TestRelic:
         return True
 
     def describe(self) -> Dict:
-        return {"tutorial": {"arrays": [], "text": [], "html": [], "images": []}}
+        return {
+            "tutorial": {"arrays": [], "text": [], "html": [], "images": [], "json": []}
+        }
 
 
 def test_read_relic():
@@ -51,4 +53,5 @@ def test_read_relic():
         "text": [],
         "html": [],
         "images": [],
+        "json": [],
     }

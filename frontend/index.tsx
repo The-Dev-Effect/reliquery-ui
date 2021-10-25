@@ -1,6 +1,7 @@
 import * as React from "react";
 import {useEffect, useState} from "react";
 import {render} from "react-dom";
+import ReactJson from 'react-json-view'
 
 import {BrowserRouter as Router, Route, Switch, useParams,} from "react-router-dom";
 
@@ -37,6 +38,7 @@ interface Relic {
     text: MetaData[]
     html: MetaData[]
     images: MetaData[]
+    json: MetaData[]
 }
 
 const Relic = () => {
@@ -49,6 +51,8 @@ const Relic = () => {
         text: new Array<MetaData>(),
         html: new Array<MetaData>(),
         images: new Array<MetaData>(),
+        json: new Array<MetaData>(),
+  
     });
 
     useEffect(() => {
@@ -66,6 +70,7 @@ const Relic = () => {
 
         fetchData();
     }, []);
+    
 
     if (relic.name === '') {
         return <CircularProgress isIndeterminate/>;
@@ -161,11 +166,25 @@ const Relic = () => {
                             {createTable(relic.images)}
                         </AccordionPanel>
                     </AccordionItem>
+                    <AccordionItem>
+                        <h2>
+                            <AccordionButton>
+                                <AccordionIcon/>
+                                <Box flex="1" textAlign="left" m={2}>
+                                    Json({relic.json.length}) 
+                                </Box>
+                            </AccordionButton>
+                        </h2>
+                        <AccordionPanel pb={4}>
+                            {createTable(relic.json)}
+                        </AccordionPanel>
+                    </AccordionItem>
                 </Accordion>
             </Stack>
         </Box>
     );
 };
+
 
 const Data = () => {
     // @ts-ignore
@@ -189,7 +208,7 @@ const Data = () => {
         return <CircularProgress isIndeterminate/>;
     }
 
-    if (data_type === "text") {
+    if (data_type === "text" ) {
         
         return (
             <Box m={2}>
@@ -197,7 +216,15 @@ const Data = () => {
                 <Text fontSize="lg">{data}</Text>
             </Box>
         )
-    } else {
+        }
+    else if(data_type === "json"){
+        return (
+            <Box m={2}>
+                <Heading as="h3" size="lg">{data_name}:</Heading>
+                <ReactJson src={JSON.parse(data)} collapsed={true} theme={"monokai"}/>
+            </Box>
+        )
+    } else{
         return (
             <Box m={2}>
                 <div dangerouslySetInnerHTML={{__html: data}}/>
