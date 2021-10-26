@@ -116,10 +116,9 @@ def get_router(Relic=Relic):
         "/reliquery",
         response_model=RelicStoragesResponse,
     )
-    
     async def reliquery_storages() -> RelicStoragesResponse:
         reliquery = Reliquery()
-        
+
         relic_data = list(reliquery.storage_map.keys())
 
         return RelicStoragesResponse(storage_names=relic_data)
@@ -131,9 +130,7 @@ def get_router(Relic=Relic):
     async def reliquery_relic_types(storage_name: str) -> RelicTypesResponse:
         reliquery = Reliquery()
 
-        return RelicTypesResponse(
-            types=reliquery.get_relic_types(storage_name)
-        )
+        return RelicTypesResponse(types=reliquery.get_relic_types(storage_name))
 
     @router.get(
         "/reliquery/{storage_name}/{relic_type}",
@@ -148,14 +145,18 @@ def get_router(Relic=Relic):
 
     return router
 
+
 class RelicsResponse(BaseModel):
     relics: List[str]
+
 
 class RelicTypesResponse(BaseModel):
     types: List[str]
 
+
 class RelicStoragesResponse(BaseModel):
     storage_names: List[str]
+
 
 class RelicResponse(BaseModel):
     name: str
@@ -193,6 +194,6 @@ def relic_response(relic: Relic) -> RelicResponse:
         images=description["images"],
         json=description["json"],
     )
-    
+
 
 router = get_router(Relic)
