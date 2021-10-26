@@ -31,6 +31,18 @@ import { base_path } from "./path_config";
 
 type MetaData = Record<'name' | 'relic_type' | 'data_type' | 'size' | 'shape' | 'last_modified', string>
 
+interface StorageNames {
+    storage_names: string[]
+}
+
+interface RelicTypes {
+    types: string[]
+}
+
+interface Relics {
+    relics: string[]
+}
+
 interface Relic {
     name: string
     relic_type: string
@@ -233,17 +245,167 @@ const Data = () => {
     }
 };
 
+const RelicTypes = () => {
+    // @ts-ignore
+    const {storage_name} = useParams();
+    const [types, setTypes] = useState<RelicTypes>({
+        types: new Array<string>(),
+    });
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await fetch(
+                `${base_path}/api/reliquery/${storage_name}`
+            );
+            
+            const json = await result.json();
+            setTypes(json);
+        };
+
+        fetchData();
+    }, []);
+
+    const type_links = []
+
+    for (let type of types.types) {
+        type_links.push(
+            <Box as="button" ml="5" mr="5" mb="5" borderRadius="md" bg="lightslategrey" color="white" px={4} h={8}>
+                <LinkBox>
+                <LinkOverlay isExternal={false}
+                                href={`${storage_name}/${type}`}>{type}</LinkOverlay>
+                
+                </LinkBox>
+            </Box>
+        );
+    };
+
+    return (
+        <Box>
+            <Heading bm="2">Relic Types</Heading>
+            {type_links}
+        </Box>
+    )
+
+}
+
+const Relics = () => {
+    // @ts-ignore
+    const {storage_name, relic_type} = useParams();
+    const [relics, setRelics] = useState<Relics>({
+        relics: new Array<string>(),
+    });
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await fetch(
+                `${base_path}/api/reliquery/${storage_name}/${relic_type}`
+            );
+            
+            const json = await result.json();
+            setRelics(json);
+        };
+
+        fetchData();
+    }, []);
+
+    const relicLinks = []
+
+    for (let relic of relics.relics) {
+        relicLinks.push(
+            <Box as="button" ml="5" mr="5" mb="5" borderRadius="md" bg="lightslategrey" color="white" px={4} h={8}>
+                <LinkBox>
+                <LinkOverlay isExternal={false}
+                                href={`${relic_type}/${relic}`}>{relic}</LinkOverlay>
+                
+                </LinkBox>
+            </Box>
+        );
+    };
+
+    return (
+        <Box>
+            <Heading bm="2">Relics</Heading>
+            {relicLinks}
+        </Box>
+    )
+
+}
+
+const StorageList = () => {
+
+    const [storages, setStorages] = useState<StorageNames>({
+        storage_names: new Array<string>()
+    });
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await fetch(
+                `${base_path}/api/reliquery`
+            );
+            
+            const json = await result.json();
+            setStorages(json);
+        };
+
+        fetchData();
+    }, []);
+
+    const storage_links = []
+
+    for (let name of storages.storage_names) {
+        storage_links.push(
+            <Box as="button" ml="5" mr="5" mb="5" borderRadius="md" bg="lightslategrey" color="white" px={4} h={8}>
+                <LinkBox>
+                <LinkOverlay isExternal={false}
+                                href={`reliquery/${name}`}>{name}</LinkOverlay>
+                
+                </LinkBox>
+            </Box>
+            
+        )
+    }
+    
+    return (
+        <Box>
+            <Heading mb="2" as="h6">Storages</Heading>
+            {storage_links}
+        </Box>
+    )
+}
+
+const Root = () => {
+
+    return (
+        <Box as="button" borderRadius="md" bg="lightslategrey" color="white" px={4} h={8}>
+            <LinkBox>
+            <LinkOverlay isExternal={false}
+                            href={"reliquery"}>Your Reliquery</LinkOverlay>
+            
+            </LinkBox>
+        </Box>
+    )
+}
 
 const App = () => {
         return (
             <ChakraProvider>
                 <Router>
                     <div>
-                        <Heading>Welcome to Reliquery!</Heading>
+                    <LinkBox>
+                        <LinkOverlay isExternal={false}
+                                        href={"/"}>
+                            <Heading as="h1" mb="5" size="4xl">Welcome to Reliquery!</Heading>
+                        </LinkOverlay>
+                    </LinkBox>
+                        
                         <Switch>
                             <Route path="/reliquery/:storage_name/:relic_type/:name/:data_type/:data_name"
                                    children={<Data/>}/>
                             <Route path="/reliquery/:storage_name/:relic_type/:name" children={<Relic/>}/>
+                            <Route path="/reliquery/:storage_name/:relic_type" children={<Relics/>}/>
+                            <Route path="/reliquery/:storage_name" children={<RelicTypes/>}/>
+                            <Route path="/reliquery" children={<StorageList/>}/>
+                            <Route path="/" children={<Root/>}/>
                         </Switch>
                     </div>
                 </Router>

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel, Field
-from reliquery import Relic
+from reliquery import Relic, Reliquery
 from typing import List, Any
 import base64
 import json
@@ -112,8 +112,50 @@ def get_router(Relic=Relic):
         )
         return json.dumps(relic.get_json(json_name), sort_keys=True, indent=4)
 
+    @router.get(
+        "/reliquery",
+        response_model=RelicStoragesResponse,
+    )
+    
+    async def reliquery_storages() -> RelicStoragesResponse:
+        reliquery = Reliquery()
+        
+        relic_data = list(reliquery.storage_map.keys())
+
+        return RelicStoragesResponse(storage_names=relic_data)
+
+    @router.get(
+        "/reliquery/{storage_name}",
+        response_model=RelicTypesResponse,
+    )
+    async def reliquery_relic_types(storage_name: str) -> RelicTypesResponse:
+        reliquery = Reliquery()
+
+        return RelicTypesResponse(
+            types=reliquery.get_relic_types(storage_name)
+        )
+
+    @router.get(
+        "/reliquery/{storage_name}/{relic_type}",
+        response_model=RelicsResponse,
+    )
+    async def reliquery_relics(storage_name: str, relic_type: str) -> RelicsResponse:
+        reliquery = Reliquery()
+
+        return RelicsResponse(
+            relics=reliquery.get_relic_names(storage_name, relic_type)
+        )
+
     return router
 
+class RelicsResponse(BaseModel):
+    relics: List[str]
+
+class RelicTypesResponse(BaseModel):
+    types: List[str]
+
+class RelicStoragesResponse(BaseModel):
+    storage_names: List[str]
 
 class RelicResponse(BaseModel):
     name: str
@@ -151,6 +193,6 @@ def relic_response(relic: Relic) -> RelicResponse:
         images=description["images"],
         json=description["json"],
     )
-
+    
 
 router = get_router(Relic)
