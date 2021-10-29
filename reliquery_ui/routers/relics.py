@@ -113,6 +113,26 @@ def get_router(Relic=Relic):
         return json.dumps(relic.get_json(json_name), sort_keys=True, indent=4)
 
     @router.get(
+        "/reliquery/{storage_name}/{relic_type}/{name}/pandasdf/{pandasdf}",
+        response_class=HTMLResponse,
+    )
+    async def reliquery_pandas_df(
+        storage_name: str, relic_type: str, name: str, pandasdf: str
+    ) -> str:
+        if not Relic.relic_exists(
+            name=name, relic_type=relic_type, storage_name=storage_name
+        ):
+            raise HTTPException(status_code=404, detail="Relic not found")
+
+        relic = Relic(
+            name=name,
+            relic_type=relic_type,
+            storage_name=storage_name,
+            check_exists=False,
+        )
+        return relic.get_pandasdf(pandasdf).to_html()
+
+    @router.get(
         "/reliquery",
         response_model=RelicStoragesResponse,
     )
@@ -166,6 +186,7 @@ class RelicResponse(BaseModel):
     html: List[Any] = []
     images: List[Any] = []
     json_field: List[Any] = Field(alias="json")
+    pandasdf: List[Any] = []
 
     class Config:
         arbitrary_types_allowed = True
@@ -193,6 +214,7 @@ def relic_response(relic: Relic) -> RelicResponse:
         html=description["html"],
         images=description["images"],
         json=description["json"],
+        pandasdf=description["pandasdf"]
     )
 
 

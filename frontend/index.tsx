@@ -51,6 +51,7 @@ interface Relic {
     html: MetaData[]
     images: MetaData[]
     json: MetaData[]
+    pandasdf: MetaData[]
 }
 
 const Relic = () => {
@@ -64,6 +65,7 @@ const Relic = () => {
         html: new Array<MetaData>(),
         images: new Array<MetaData>(),
         json: new Array<MetaData>(),
+        pandasdf: new Array<MetaData>(),
   
     });
 
@@ -189,6 +191,19 @@ const Relic = () => {
                         </h2>
                         <AccordionPanel pb={4}>
                             {createTable(relic.json)}
+                        </AccordionPanel>
+                    </AccordionItem>
+                    <AccordionItem>
+                        <h2>
+                            <AccordionButton>
+                                <AccordionIcon/>
+                                <Box flex="1" textAlign="left" m={2}>
+                                    Pandas DataFrame({relic.pandasdf.length}) 
+                                </Box>
+                            </AccordionButton>
+                        </h2>
+                        <AccordionPanel pb={4}>
+                            {createTable(relic.pandasdf)}
                         </AccordionPanel>
                     </AccordionItem>
                 </Accordion>
