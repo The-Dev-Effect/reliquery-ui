@@ -214,7 +214,7 @@ def relic_response(relic: Relic) -> RelicResponse:
         html=description["html"],
         images=description["images"],
         json=description["json"],
-        pandasdf=description["pandasdf"]
+        pandasdf=description["pandasdf"],
     )
 
 
