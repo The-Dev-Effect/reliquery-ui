@@ -9,13 +9,16 @@ from fastapi.middleware.cors import CORSMiddleware
 from .routers import relics
 from reliquery import Relic
 
+
 def cache_no_store(f):
     @wraps(f)
     def inner(*args, **kwargs):
         resp = f(*args, **kwargs)
         resp.headers["Cache-Control"] = "no-store"
         return resp
+
     return inner
+
 
 def get_app(Relic=Relic):
     app = FastAPI()
@@ -30,7 +33,9 @@ def get_app(Relic=Relic):
     app.include_router(relics.get_router(Relic), prefix="/api", tags=["relics"])
 
     rel_loc = os.path.dirname(__file__)
-    dist_path = os.path.normpath(os.path.join(os.path.split(rel_loc)[0], "frontend", "dist"))
+    dist_path = os.path.normpath(
+        os.path.join(os.path.split(rel_loc)[0], "frontend", "dist")
+    )
     index_path = os.path.join(dist_path, "index.html")
 
     @app.get("/", response_class=FileResponse)
