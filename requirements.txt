@@ -1,4 +1,4 @@
-git+git://github.com/The-Dev-Effect/reliquery@main#egg=reliquery
+reliquery
 numpy
 black
 fastapi
