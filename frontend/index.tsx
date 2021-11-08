@@ -2,7 +2,6 @@ import * as React from "react";
 import {useEffect, useState} from "react";
 import {render} from "react-dom";
 import ReactJson from 'react-json-view'
-
 import {BrowserRouter as Router, Route, Switch, useParams,} from "react-router-dom";
 
 import {
@@ -11,6 +10,7 @@ import {
     AccordionIcon,
     AccordionItem,
     AccordionPanel,
+    Button,
     Box,
     ChakraProvider,
     CircularProgress,
@@ -52,6 +52,7 @@ interface Relic {
     images: MetaData[]
     json: MetaData[]
     pandasdf: MetaData[]
+    files: MetaData[]
 }
 
 const Relic = () => {
@@ -66,7 +67,7 @@ const Relic = () => {
         images: new Array<MetaData>(),
         json: new Array<MetaData>(),
         pandasdf: new Array<MetaData>(),
-  
+        files: new Array<MetaData>(),
     });
 
     useEffect(() => {
@@ -107,12 +108,45 @@ const Relic = () => {
                         <Tbody>
                             {metaDatas.map(metaData => (
                                 <LinkBox as={Tr}>
-                                    <LinkOverlay isExternal={true}
+                                    <LinkOverlay isExternal={false}
                                                  href={relic.name + "/" + metaData.data_type + "/" + metaData.name}></LinkOverlay>
                                     {Object.keys(metaData).slice(1).map(key => (
                                         <Td>{metaData[key as keyof MetaData]}</Td>
                                     ))}
                                 </LinkBox>
+                            ))}
+                        </Tbody>
+                    </Table>
+                </>);
+        }
+    }
+
+    function createFilesTable(metaDatas: MetaData[]) {
+        if (metaDatas.length === 0)
+            return "";
+        else {
+            return (
+                <>
+                    <Table variant="simple">
+                        <Thead>
+                            <Tr>
+                                {Object.keys(metaDatas[0]).map(key => (
+                                    <Th>{key}</Th>
+                                ))}
+                            </Tr>
+                        </Thead>
+                        <Tbody>
+                            {metaDatas.map(metaData => (
+                                <Tr>
+                                    {Object.keys(metaData).map(key => (
+                                        <Td>{metaData[key as keyof MetaData]}</Td>
+                                        ))}
+                                    <LinkBox as={Button}>
+                                        Download
+                                    <LinkOverlay isExternal={false}
+                                        href={`${base_path}/api/reliquery/${storage_name}/${relic_type}/${name}/files/${metaData.name}`}></LinkOverlay>
+                                    </LinkBox>
+                                </Tr>
                             ))}
                         </Tbody>
                     </Table>
@@ -204,6 +238,19 @@ const Relic = () => {
                         </h2>
                         <AccordionPanel pb={4}>
                             {createTable(relic.pandasdf)}
+                        </AccordionPanel>
+                    </AccordionItem>
+                    <AccordionItem>
+                        <h2>
+                            <AccordionButton>
+                                <AccordionIcon/>
+                                <Box flex="1" textAlign="left" m={2}>
+                                    Files({relic.files.length}) 
+                                </Box>
+                            </AccordionButton>
+                        </h2>
+                        <AccordionPanel pb={4}>
+                            {createFilesTable(relic.files)}
                         </AccordionPanel>
                     </AccordionItem>
                 </Accordion>

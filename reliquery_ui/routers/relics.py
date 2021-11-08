@@ -1,5 +1,7 @@
+from functools import wraps
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import HTMLResponse
+from fastapi.responses import Response
 from pydantic import BaseModel, Field
 from reliquery import Relic, Reliquery
 from typing import List, Any
@@ -133,6 +135,32 @@ def get_router(Relic=Relic):
         return relic.get_pandasdf(pandasdf).to_html()
 
     @router.get(
+        "/reliquery/{storage_name}/{relic_type}/{name}/files/{files}",
+        response_class=Response,
+    )
+    # @cache_no_store TODO: figure out why the decorator breaks app
+    async def reliquery_files(
+        storage_name: str, relic_type: str, name: str, files: str
+    ) -> Response:
+        if not Relic.relic_exists(
+            name=name, relic_type=relic_type, storage_name=storage_name
+        ):
+            raise HTTPException(status_code=404, detail="Relic not found")
+
+        relic = Relic(
+            name=name,
+            relic_type=relic_type,
+            storage_name=storage_name,
+            check_exists=False,
+        )
+
+        response = Response(content=relic.get_file(files).read())
+        response.headers["Content-Disposition"] = "attachment"
+        response.headers["Cache-Control"] = "no-store"
+
+        return response
+
+    @router.get(
         "/reliquery",
         response_model=RelicStoragesResponse,
     )
@@ -187,6 +215,7 @@ class RelicResponse(BaseModel):
     images: List[Any] = []
     json_field: List[Any] = Field(alias="json")
     pandasdf: List[Any] = []
+    files: List[Any] = []
 
     class Config:
         arbitrary_types_allowed = True
@@ -215,6 +244,7 @@ def relic_response(relic: Relic) -> RelicResponse:
         images=description["images"],
         json=description["json"],
         pandasdf=description["pandasdf"],
+        files=description["files"],
     )
 
 
