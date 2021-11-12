@@ -129,34 +129,32 @@ const Relic = () => {
     function createFilesTable(metaDatas: MetaData[]) {
         if (metaDatas.length === 0)
             return "";
-        else {
-            return (
-                <>
-                    <Table variant="simple">
-                        <Thead>
-                            <Tr>
-                                {Object.keys(metaDatas[0]).map(key => (
-                                    <Th>{key}</Th>
-                                ))}
-                            </Tr>
-                        </Thead>
-                        <Tbody>
-                            {metaDatas.map(metaData => (
-                                <Tr>
-                                    {Object.keys(metaData).map(key => (
-                                        <Td>{metaData[key as keyof MetaData]}</Td>
-                                        ))}
-                                    <LinkBox as={Button}>
-                                        Download
-                                    <LinkOverlay isExternal={false}
-                                        href={`${base_path}/api/reliquery/${storage_name}/${relic_type}/${name}/files/${metaData.name}`}></LinkOverlay>
-                                    </LinkBox>
-                                </Tr>
+        return (
+            <>
+                <Table variant="simple">
+                    <Thead>
+                        <Tr>
+                            {Object.keys(metaDatas[0]).map(key => (
+                                <Th>{key}</Th>
                             ))}
-                        </Tbody>
-                    </Table>
-                </>);
-        }
+                        </Tr>
+                    </Thead>
+                    <Tbody>
+                        {metaDatas.map(metaData => (
+                            <Tr>
+                                {Object.keys(metaData).map(key => (
+                                    <Td>{metaData[key as keyof MetaData]}</Td>
+                                    ))}
+                                <LinkBox as={Button}>
+                                    Download
+                                <LinkOverlay isExternal={false}
+                                    href={`${base_path}/api/reliquery/${storage_name}/${relic_type}/${name}/files/${metaData.name}`}></LinkOverlay>
+                                </LinkBox>
+                            </Tr>
+                        ))}
+                    </Tbody>
+                </Table>
+            </>);
     }
 
     return (
