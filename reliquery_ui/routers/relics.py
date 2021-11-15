@@ -4,7 +4,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.responses import Response
 from pydantic import BaseModel, Field
 from reliquery import Relic, Reliquery
-from typing import List, Any
+from typing import Dict, List, Any
 import base64
 import json
 
@@ -162,40 +162,38 @@ def get_router(Relic=Relic):
 
     @router.get(
         "/reliquery",
-        response_model=RelicStoragesResponse,
+        response_model=RelicNameResponse,
     )
-    async def reliquery_storages() -> RelicStoragesResponse:
+    async def reliquery_storages() -> RelicNameResponse:
         reliquery = Reliquery()
+        
+        return RelicNameResponse(relics=reliquery.get_relic_names())
 
-        relic_data = list(reliquery.storage_map.keys())
+    # @router.get(
+    #     "/reliquery/{storage_name}",
+    #     response_model=RelicTypesResponse,
+    # )
+    # async def reliquery_relic_types(storage_name: str) -> RelicTypesResponse:
+    #     reliquery = Reliquery()
 
-        return RelicStoragesResponse(storage_names=relic_data)
+    #     return RelicTypesResponse(types=reliquery.get_relic_types(storage_name))
 
-    @router.get(
-        "/reliquery/{storage_name}",
-        response_model=RelicTypesResponse,
-    )
-    async def reliquery_relic_types(storage_name: str) -> RelicTypesResponse:
-        reliquery = Reliquery()
+    # @router.get(
+    #     "/reliquery/{storage_name}/{relic_type}",
+    #     response_model=RelicsResponse,
+    # )
+    # async def reliquery_relics(storage_name: str, relic_type: str) -> RelicsResponse:
+    #     reliquery = Reliquery()
 
-        return RelicTypesResponse(types=reliquery.get_relic_types(storage_name))
-
-    @router.get(
-        "/reliquery/{storage_name}/{relic_type}",
-        response_model=RelicsResponse,
-    )
-    async def reliquery_relics(storage_name: str, relic_type: str) -> RelicsResponse:
-        reliquery = Reliquery()
-
-        return RelicsResponse(
-            relics=reliquery.get_relic_names(storage_name, relic_type)
-        )
+    #     return RelicsResponse(
+    #         relics=reliquery.get_relic_names(storage_name, relic_type)
+    #     )
 
     return router
 
 
-class RelicsResponse(BaseModel):
-    relics: List[str]
+class RelicNameResponse(BaseModel):
+    relics: List[Dict]
 
 
 class RelicTypesResponse(BaseModel):
