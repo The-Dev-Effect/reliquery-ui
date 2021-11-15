@@ -52,9 +52,10 @@ interface Relic {
     text: MetaData[]
     html: MetaData[]
     images: MetaData[]
-    json: MetaData[]
+    jsons: MetaData[]
     pandasdf: MetaData[]
     files: MetaData[]
+    notebooks:MetaData[]
 }
 
 const Relic = () => {
@@ -67,9 +68,10 @@ const Relic = () => {
         text: new Array<MetaData>(),
         html: new Array<MetaData>(),
         images: new Array<MetaData>(),
-        json: new Array<MetaData>(),
+        jsons: new Array<MetaData>(),
         pandasdf: new Array<MetaData>(),
         files: new Array<MetaData>(),
+        notebooks: new Array<MetaData>(),
     });
 
     useEffect(() => {
@@ -157,6 +159,39 @@ const Relic = () => {
             </>);
     }
 
+    function createNotebooksTable(metaDatas: MetaData[]) {
+        if (metaDatas.length === 0)
+            return "";
+        return (
+            <>
+                <Table variant="simple">
+                    <Thead>
+                        <Tr>
+                            {Object.keys(metaDatas[0]).map(key => (
+                                <Th>{key}</Th>
+                            ))}
+                        </Tr>
+                    </Thead>
+                    <Tbody>
+                        {metaDatas.map(metaData => (
+                            <LinkBox as={Tr}>
+                                <LinkOverlay isExternal={true}
+                                    href={relic.name + "/notebooks-html/" + metaData.name}></LinkOverlay>
+                                {Object.keys(metaData).map(key => (
+                                    <Td>{metaData[key as keyof MetaData]}</Td>
+                                    ))}
+                                <LinkBox as={Button}>
+                                    Download
+                                <LinkOverlay isExternal={false}
+                                    href={`${base_path}/api/reliquery/${storage_name}/${relic_type}/${name}/notebooks/${metaData.name}`}></LinkOverlay>
+                                </LinkBox>
+                            </LinkBox>
+                        ))}
+                    </Tbody>
+                </Table>
+            </>);
+    }
+
     return (
         <Box m={2}>
             <Stack spacing={3}>
@@ -222,12 +257,12 @@ const Relic = () => {
                             <AccordionButton>
                                 <AccordionIcon/>
                                 <Box flex="1" textAlign="left" m={2}>
-                                    Json({relic.json.length}) 
+                                    Json({relic.jsons.length}) 
                                 </Box>
                             </AccordionButton>
                         </h2>
                         <AccordionPanel pb={4}>
-                            {createTable(relic.json)}
+                            {createTable(relic.jsons)}
                         </AccordionPanel>
                     </AccordionItem>
                     <AccordionItem>
@@ -254,6 +289,19 @@ const Relic = () => {
                         </h2>
                         <AccordionPanel pb={4}>
                             {createFilesTable(relic.files)}
+                        </AccordionPanel>
+                    </AccordionItem>
+                    <AccordionItem>
+                        <h2>
+                            <AccordionButton>
+                                <AccordionIcon/>
+                                <Box flex="1" textAlign="left" m={2}>
+                                    Notebooks({relic.notebooks.length}) 
+                                </Box>
+                            </AccordionButton>
+                        </h2>
+                        <AccordionPanel pb={4}>
+                            {createNotebooksTable(relic.notebooks)}
                         </AccordionPanel>
                     </AccordionItem>
                 </Accordion>
@@ -294,7 +342,7 @@ const Data = () => {
             </Box>
         )
         }
-    else if(data_type === "json"){
+    else if(data_type === "jsons"){
         return (
             <Box m={2}>
                 <Heading as="h3" size="lg">{data_name}:</Heading>
