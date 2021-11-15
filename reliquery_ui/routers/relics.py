@@ -7,6 +7,9 @@ from reliquery import Relic, Reliquery
 from typing import List, Any
 import base64
 import json
+import nbconvert 
+import nbformat
+from IPython.display import HTML
 
 
 def get_router(Relic=Relic):
@@ -95,7 +98,7 @@ def get_router(Relic=Relic):
         return relic.get_text(text)
 
     @router.get(
-        "/reliquery/{storage_name}/{relic_type}/{name}/json/{json_name}",
+        "/reliquery/{storage_name}/{relic_type}/{name}/jsons/{json_name}",
         response_class=HTMLResponse,
     )
     async def reliquery_json(
@@ -161,6 +164,53 @@ def get_router(Relic=Relic):
         return response
 
     @router.get(
+        "/reliquery/{storage_name}/{relic_type}/{name}/notebooks-html/{notebooks}",
+        response_class=HTMLResponse,
+    )
+    async def reliquery_notebooks(
+        storage_name: str, relic_type: str, name: str, notebooks: str
+    ) -> str:
+        if not Relic.relic_exists(
+            name=name, relic_type=relic_type, storage_name=storage_name
+        ):
+            raise HTTPException(status_code=404, detail="Relic not found")
+
+        relic = Relic(
+            name=name,
+            relic_type=relic_type,
+            storage_name=storage_name,
+            check_exists=False,
+        )
+        return relic.get_notebooks_html(notebooks)
+
+    @router.get(
+        "/reliquery/{storage_name}/{relic_type}/{name}/notebooks/{notebooks}",
+        response_class=Response,
+    )
+    # @cache_no_store TODO: figure out why the decorator breaks app
+    async def reliquery_notebooks(
+        storage_name: str, relic_type: str, name: str, notebooks: str
+    ) -> Response:
+        if not Relic.relic_exists(
+            name=name, relic_type=relic_type, storage_name=storage_name
+        ):
+            raise HTTPException(status_code=404, detail="Relic not found")
+
+        relic = Relic(
+            name=name,
+            relic_type=relic_type,
+            storage_name=storage_name,
+            check_exists=False,
+        )
+
+        response = Response(content=relic.get_notebooks(notebooks).read())
+        response.headers["Content-Disposition"] = "attachment"
+        response.headers["Cache-Control"] = "no-store"
+
+        return response
+        
+
+    @router.get(
         "/reliquery",
         response_model=RelicStoragesResponse,
     )
@@ -213,9 +263,10 @@ class RelicResponse(BaseModel):
     text: List[Any] = []
     html: List[Any] = []
     images: List[Any] = []
-    json_field: List[Any] = Field(alias="json")
+    json_field: List[Any] = Field(alias="jsons")
     pandasdf: List[Any] = []
     files: List[Any] = []
+    notebooks: List[Any] = []
 
     class Config:
         arbitrary_types_allowed = True
@@ -242,9 +293,10 @@ def relic_response(relic: Relic) -> RelicResponse:
         text=description["text"],
         html=description["html"],
         images=description["images"],
-        json=description["json"],
+        jsons=description["jsons"],
         pandasdf=description["pandasdf"],
         files=description["files"],
+        notebooks=description["notebooks"]
     )
 
 
