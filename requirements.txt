@@ -1,4 +1,4 @@
-reliquery
+reliquery==0.2.9
 numpy
 black
 fastapi
