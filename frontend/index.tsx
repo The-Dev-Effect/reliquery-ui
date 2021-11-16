@@ -10,7 +10,6 @@ import {
     AccordionIcon,
     AccordionItem,
     AccordionPanel,
-    Button,
     Box,
     Button,
     ChakraProvider,
@@ -28,9 +27,6 @@ import {
     Tr
 } from "@chakra-ui/react"
 import { base_path } from "./path_config";
-
-//css import
-import "./app.css"
 
 
 
@@ -322,133 +318,133 @@ const Data = () => {
     }
 };
 
-// const RelicTypes = () => {
-//     // @ts-ignore
-//     const {storage_name} = useParams();
-//     const [types, setTypes] = useState<RelicTypes>({
-//         types: new Array<string>(),
-//     });
+const RelicTypes = () => {
+    // @ts-ignore
+    const {storage_name} = useParams();
+    const [types, setTypes] = useState<RelicTypes>({
+        types: new Array<string>(),
+    });
 
-//     useEffect(() => {
-//         const fetchData = async () => {
-//             const result = await fetch(
-//                 `${base_path}/api/reliquery/${storage_name}`
-//             );
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await fetch(
+                `${base_path}/api/reliquery/${storage_name}`
+            );
             
-//             const json = await result.json();
-//             setTypes(json);
-//         };
+            const json = await result.json();
+            setTypes(json);
+        };
 
-//         fetchData();
-//     }, []);
+        fetchData();
+    }, []);
 
-//     const type_links = []
+    const type_links = []
 
-//     for (let type of types.types) {
-//         type_links.push(
-//             <Box as="button" ml="5" mr="5" mb="5" borderRadius="md" bg="lightslategrey" color="white" px={4} h={8}>
-//                 <LinkBox>
-//                 <LinkOverlay isExternal={false}
-//                                 href={`${storage_name}/${type}`}>{type}</LinkOverlay>
+    for (let type of types.types) {
+        type_links.push(
+            <Box as="button" ml="5" mr="5" mb="5" borderRadius="md" bg="lightslategrey" color="white" px={4} h={8}>
+                <LinkBox>
+                <LinkOverlay isExternal={false}
+                                href={`${storage_name}/${type}`}>{type}</LinkOverlay>
                 
-//                 </LinkBox>
-//             </Box>
-//         );
-//     };
+                </LinkBox>
+            </Box>
+        );
+    };
 
-//     return (
-//         <Box>
-//             <Heading bm="2">Relic Types</Heading>
-//             {type_links}
-//         </Box>
-//     )
+    return (
+        <Box>
+            <Heading bm="2">Relic Types</Heading>
+            {type_links}
+        </Box>
+    )
 
-// }
+}
 
-// const Relics = () => {
-//     // @ts-ignore
-//     const {storage_name, relic_type} = useParams();
-//     const [relics, setRelics] = useState<Relics>({
-//         relics: new Array<string>(),
-//     });
+const Relics = () => {
+    // @ts-ignore
+    const {storage_name, relic_type} = useParams();
+    const [relics, setRelics] = useState<Relics>({
+        relics: new Array<RelicName>(),
+    });
 
-//     useEffect(() => {
-//         const fetchData = async () => {
-//             const result = await fetch(
-//                 `${base_path}/api/reliquery/${storage_name}/${relic_type}`
-//             );
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await fetch(
+                `${base_path}/api/reliquery/${storage_name}/${relic_type}`
+            );
             
-//             const json = await result.json();
-//             setRelics(json);
-//         };
+            const json = await result.json();
+            setRelics(json);
+        };
 
-//         fetchData();
-//     }, []);
+        fetchData();
+    }, []);
 
-//     const relicLinks = []
+    const relicLinks = []
 
-//     for (let relic of relics.relics) {
-//         relicLinks.push(
-//             <Box as="button" ml="5" mr="5" mb="5" borderRadius="md" bg="lightslategrey" color="white" px={4} h={8}>
-//                 <LinkBox>
-//                 <LinkOverlay isExternal={false}
-//                                 href={`${relic_type}/${relic}`}>{relic}</LinkOverlay>
+    for (let relic of relics.relics) {
+        relicLinks.push(
+            <Box as="button" ml="5" mr="5" mb="5" borderRadius="md" bg="lightslategrey" color="white" px={4} h={8}>
+                <LinkBox>
+                <LinkOverlay isExternal={false}
+                                href={`${relic_type}/${relic}`}>{relic}</LinkOverlay>
                 
-//                 </LinkBox>
-//             </Box>
-//         );
-//     };
+                </LinkBox>
+            </Box>
+        );
+    };
 
-//     return (
-//         <Box>
-//             <Heading bm="2">Relics</Heading>
-//             {relicLinks}
-//         </Box>
-//     )
+    return (
+        <Box>
+            <Heading bm="2">Relics</Heading>
+            {relicLinks}
+        </Box>
+    )
 
-// }
+}
 
-// const StorageList = () => {
+const StorageList = () => {
 
-//     const [storages, setStorages] = useState<StorageNames>({
-//         storage_names: new Array<string>()
-//     });
+    const [storages, setStorages] = useState<StorageNames>({
+        storage_names: new Array<string>()
+    });
 
-//     useEffect(() => {
-//         const fetchData = async () => {
-//             const result = await fetch(
-//                 `${base_path}/api/reliquery`
-//             );
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await fetch(
+                `${base_path}/api/reliquery/storages`
+            );
             
-//             const json = await result.json();
-//             setStorages(json);
-//         };
+            const json = await result.json();
+            setStorages(json);
+        };
 
-//         fetchData();
-//     }, []);
+        fetchData();
+    }, []);
 
-//     const storage_links = []
+    const storage_links = []
 
-//     for (let name of storages.storage_names) {
-//         storage_links.push(
-//             <Box as="button" ml="5" mr="5" mb="5" borderRadius="md" bg="lightslategrey" color="white" px={4} h={8}>
-//                 <LinkBox>
-//                 <LinkOverlay isExternal={false}
-//                                 href={`reliquery/${name}`}>{name}</LinkOverlay>
+    for (let name of storages.storage_names) {
+        storage_links.push(
+            <Box as="button" ml="5" mr="5" mb="5" borderRadius="md" bg="lightslategrey" color="white" px={4} h={8}>
+                <LinkBox>
+                <LinkOverlay isExternal={false}
+                                href={name}>{name}</LinkOverlay>
                 
-//                 </LinkBox>
-//             </Box>
+                </LinkBox>
+            </Box>
             
-//         )
-//     }
+        )
+    }
     
-//     return (
-//         <Box>
-//             <Heading mb="2" as="h6">Storages</Heading>
-//             {storage_links}
-//         </Box>
-//     )
-// }
+    return (
+        <Box>
+            <Heading mb="2" as="h6">Storages</Heading>
+            {storage_links}
+        </Box>
+    )
+}
 
 const Root = () => {
     const [relics, setRelics] = useState<Relics>({
@@ -471,13 +467,16 @@ const Root = () => {
     if (relics.relics.length === 0) {
         return <CircularProgress isIndeterminate/>;
     }
+
     
     return (
         <Box>
-            <Box as={Button}>Storages</Box>
-            <Box as={Button}>Relic Types</Box>
+            <Box as={Button} mr="5px">
+                <LinkOverlay isExternal={false} href={"reliquery/"}></LinkOverlay>
+                Storages
+            </Box>
 
-            <Box h="300px" w="70%" border="solid" borderColor="cyan.100" overflow="auto" a="center">
+            <Box h="300px" w="70%" border="solid" borderColor="cyan.100" overflow="auto" a="center" mt="10px">
                 <Table variant="striped">
                         <Thead>
                             <Heading size="2xl">Relics</Heading>
@@ -494,7 +493,7 @@ const Root = () => {
                                 <LinkBox as={Tr} transform="scale(1)">
                                     {Object.keys(relic).map(key => (
                                         <Td>
-                                            <LinkOverlay isExternal={true}
+                                            <LinkOverlay isExternal={false}
                                                     href={"reliquery/" + relic.storage + "/" + relic.type + "/" + relic.name}>{relic[key as keyof RelicName]}</LinkOverlay>
 
                                         </Td>
@@ -526,9 +525,9 @@ const App = () => {
                             <Route path="/reliquery/:storage_name/:relic_type/:name/:data_type/:data_name"
                                    children={<Data/>}/>
                             <Route path="/reliquery/:storage_name/:relic_type/:name" children={<Relic/>}/>
-                            {/* <Route path="/reliquery/:storage_name/:relic_type" children={<Relics/>}/>
+                            <Route path="/reliquery/:storage_name/:relic_type" children={<Relics/>}/>
                             <Route path="/reliquery/:storage_name" children={<RelicTypes/>}/>
-                            <Route path="/reliquery" children={<StorageList/>}/> */}
+                            <Route path="/reliquery" children={<StorageList/>}/> 
                             <Route path="/" children={<Root/>}/>
                         </Switch>
                     </div>
