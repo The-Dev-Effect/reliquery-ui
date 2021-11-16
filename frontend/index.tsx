@@ -55,6 +55,7 @@ interface Relic {
     json: MetaData[]
     pandasdf: MetaData[]
     files: MetaData[]
+    notebooks:MetaData[]
 }
 
 const Relic = () => {
@@ -70,6 +71,7 @@ const Relic = () => {
         json: new Array<MetaData>(),
         pandasdf: new Array<MetaData>(),
         files: new Array<MetaData>(),
+        notebooks: new Array<MetaData>(),
     });
 
     useEffect(() => {
@@ -129,34 +131,65 @@ const Relic = () => {
     function createFilesTable(metaDatas: MetaData[]) {
         if (metaDatas.length === 0)
             return "";
-        else {
-            return (
-                <>
-                    <Table variant="simple">
-                        <Thead>
-                            <Tr>
-                                {Object.keys(metaDatas[0]).map(key => (
-                                    <Th>{key}</Th>
-                                ))}
-                            </Tr>
-                        </Thead>
-                        <Tbody>
-                            {metaDatas.map(metaData => (
-                                <Tr>
-                                    {Object.keys(metaData).map(key => (
-                                        <Td>{metaData[key as keyof MetaData]}</Td>
-                                        ))}
-                                    <LinkBox as={Button}>
-                                        Download
-                                    <LinkOverlay isExternal={false}
-                                        href={`${base_path}/api/reliquery/${storage_name}/${relic_type}/${name}/files/${metaData.name}`}></LinkOverlay>
-                                    </LinkBox>
-                                </Tr>
+        return (
+            <>
+                <Table variant="simple">
+                    <Thead>
+                        <Tr>
+                            {Object.keys(metaDatas[0]).map(key => (
+                                <Th>{key}</Th>
                             ))}
-                        </Tbody>
-                    </Table>
-                </>);
-        }
+                        </Tr>
+                    </Thead>
+                    <Tbody>
+                        {metaDatas.map(metaData => (
+                            <Tr>
+                                {Object.keys(metaData).map(key => (
+                                    <Td>{metaData[key as keyof MetaData]}</Td>
+                                    ))}
+                                <LinkBox as={Button}>
+                                    Download
+                                <LinkOverlay isExternal={false}
+                                    href={`${base_path}/api/reliquery/${storage_name}/${relic_type}/${name}/files/${metaData.name}`}></LinkOverlay>
+                                </LinkBox>
+                            </Tr>
+                        ))}
+                    </Tbody>
+                </Table>
+            </>);
+    }
+
+    function createNotebooksTable(metaDatas: MetaData[]) {
+        if (metaDatas.length === 0)
+            return "";
+        return (
+            <>
+                <Table variant="simple">
+                    <Thead>
+                        <Tr>
+                            {Object.keys(metaDatas[0]).map(key => (
+                                <Th>{key}</Th>
+                            ))}
+                        </Tr>
+                    </Thead>
+                    <Tbody>
+                        {metaDatas.map(metaData => (
+                            <LinkBox as={Tr}>
+                                <LinkOverlay isExternal={true}
+                                    href={relic.name + "/notebooks-html/" + metaData.name}></LinkOverlay>
+                                {Object.keys(metaData).map(key => (
+                                    <Td>{metaData[key as keyof MetaData]}</Td>
+                                    ))}
+                                <LinkBox as={Button}>
+                                    Download
+                                <LinkOverlay isExternal={false}
+                                    href={`${base_path}/api/reliquery/${storage_name}/${relic_type}/${name}/notebooks/${metaData.name}`}></LinkOverlay>
+                                </LinkBox>
+                            </LinkBox>
+                        ))}
+                    </Tbody>
+                </Table>
+            </>);
     }
 
     return (
@@ -256,6 +289,19 @@ const Relic = () => {
                         </h2>
                         <AccordionPanel pb={4}>
                             {createFilesTable(relic.files)}
+                        </AccordionPanel>
+                    </AccordionItem>
+                    <AccordionItem>
+                        <h2>
+                            <AccordionButton>
+                                <AccordionIcon/>
+                                <Box flex="1" textAlign="left" m={2}>
+                                    Notebooks({relic.notebooks.length}) 
+                                </Box>
+                            </AccordionButton>
+                        </h2>
+                        <AccordionPanel pb={4}>
+                            {createNotebooksTable(relic.notebooks)}
                         </AccordionPanel>
                     </AccordionItem>
                 </Accordion>

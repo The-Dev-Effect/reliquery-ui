@@ -5,7 +5,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.responses import Response
 from pydantic import BaseModel, Field
 from reliquery import Relic, Reliquery, storage
-from typing import Dict, List, Any
+from typing import List, Any
 import base64
 import json
 
@@ -116,11 +116,11 @@ def get_router(Relic=Relic):
         return json.dumps(relic.get_json(json_name), sort_keys=True, indent=4)
 
     @router.get(
-        "/reliquery/{storage_name}/{relic_type}/{name}/pandasdf/{pandasdf}",
+        "/reliquery/{storage_name}/{relic_type}/{name}/pandasdf/{pandasdf_name}",
         response_class=HTMLResponse,
     )
     async def reliquery_pandas_df(
-        storage_name: str, relic_type: str, name: str, pandasdf: str
+        storage_name: str, relic_type: str, name: str, pandasdf_name: str
     ) -> str:
         if not Relic.relic_exists(
             name=name, relic_type=relic_type, storage_name=storage_name
@@ -133,15 +133,15 @@ def get_router(Relic=Relic):
             storage_name=storage_name,
             check_exists=False,
         )
-        return relic.get_pandasdf(pandasdf).to_html()
+        return relic.get_pandasdf(pandasdf_name).to_html()
 
     @router.get(
-        "/reliquery/{storage_name}/{relic_type}/{name}/files/{files}",
+        "/reliquery/{storage_name}/{relic_type}/{name}/files/{files_name}",
         response_class=Response,
     )
     # @cache_no_store TODO: figure out why the decorator breaks app
     async def reliquery_files(
-        storage_name: str, relic_type: str, name: str, files: str
+        storage_name: str, relic_type: str, name: str, files_name: str
     ) -> Response:
         if not Relic.relic_exists(
             name=name, relic_type=relic_type, storage_name=storage_name
@@ -155,7 +155,53 @@ def get_router(Relic=Relic):
             check_exists=False,
         )
 
-        response = Response(content=relic.get_file(files).read())
+        response = Response(content=relic.get_file(files_name).read())
+        response.headers["Content-Disposition"] = "attachment"
+        response.headers["Cache-Control"] = "no-store"
+
+        return response
+
+    @router.get(
+        "/reliquery/{storage_name}/{relic_type}/{name}/notebooks-html/{notebooks_name}",
+        response_class=HTMLResponse,
+    )
+    async def reliquery_notebooks(
+        storage_name: str, relic_type: str, name: str, notebooks_name: str
+    ) -> str:
+        if not Relic.relic_exists(
+            name=name, relic_type=relic_type, storage_name=storage_name
+        ):
+            raise HTTPException(status_code=404, detail="Relic not found")
+
+        relic = Relic(
+            name=name,
+            relic_type=relic_type,
+            storage_name=storage_name,
+            check_exists=False,
+        )
+        return relic.get_notebook_html(notebooks_name)
+
+    @router.get(
+        "/reliquery/{storage_name}/{relic_type}/{name}/notebooks/{notebooks_name}",
+        response_class=Response,
+    )
+    # @cache_no_store TODO: figure out why the decorator breaks app
+    async def reliquery_notebooks(
+        storage_name: str, relic_type: str, name: str, notebooks_name: str
+    ) -> Response:
+        if not Relic.relic_exists(
+            name=name, relic_type=relic_type, storage_name=storage_name
+        ):
+            raise HTTPException(status_code=404, detail="Relic not found")
+
+        relic = Relic(
+            name=name,
+            relic_type=relic_type,
+            storage_name=storage_name,
+            check_exists=False,
+        )
+
+        response = Response(content=relic.get_notebook(notebooks_name).read())
         response.headers["Content-Disposition"] = "attachment"
         response.headers["Cache-Control"] = "no-store"
 
@@ -243,6 +289,7 @@ class RelicResponse(BaseModel):
     json_field: List[Any] = Field(alias="json")
     pandasdf: List[Any] = []
     files: List[Any] = []
+    notebooks: List[Any] = []
 
     class Config:
         arbitrary_types_allowed = True
@@ -272,6 +319,7 @@ def relic_response(relic: Relic) -> RelicResponse:
         json=description["json"],
         pandasdf=description["pandasdf"],
         files=description["files"],
+        notebooks=description["notebooks"],
     )
 
 
