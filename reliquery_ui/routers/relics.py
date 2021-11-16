@@ -8,7 +8,7 @@ from reliquery import Relic, Reliquery, storage
 from typing import Dict, List, Any
 import base64
 import json
-import nbconvert 
+import nbconvert
 import nbformat
 from IPython.display import HTML
 
@@ -209,7 +209,6 @@ def get_router(Relic=Relic):
         response.headers["Cache-Control"] = "no-store"
 
         return response
-        
 
     @router.get(
         "/reliquery",
@@ -323,7 +322,7 @@ def relic_response(relic: Relic) -> RelicResponse:
         jsons=description["jsons"],
         pandasdf=description["pandasdf"],
         files=description["files"],
-        notebooks=description["notebooks"]
+        notebooks=description["notebooks"],
     )
 
 
