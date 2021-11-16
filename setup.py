@@ -1,7 +1,7 @@
 from setuptools import find_packages, setup
 
 install_requires = [
-    "reliquery",
+    "reliquery >= 0.2.9",
     "numpy >= 1.16",
     "black>=21.4b",
     "fastapi[all]",
@@ -12,7 +12,7 @@ install_requires = [
 
 setup(
     name="reliquery_ui",
-    version="0.2.1 ",
+    version="0.2.2 ",
     description="Science's Artifact Antiformat",
     url="https://github.com/The-Dev-Effect/reliquery-ui",
     author="The Dev Effect",
