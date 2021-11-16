@@ -52,7 +52,7 @@ interface Relic {
     text: MetaData[]
     html: MetaData[]
     images: MetaData[]
-    json: MetaData[]
+    jsons: MetaData[]
     pandasdf: MetaData[]
     files: MetaData[]
     notebooks:MetaData[]
@@ -68,7 +68,7 @@ const Relic = () => {
         text: new Array<MetaData>(),
         html: new Array<MetaData>(),
         images: new Array<MetaData>(),
-        json: new Array<MetaData>(),
+        jsons: new Array<MetaData>(),
         pandasdf: new Array<MetaData>(),
         files: new Array<MetaData>(),
         notebooks: new Array<MetaData>(),
@@ -257,12 +257,12 @@ const Relic = () => {
                             <AccordionButton>
                                 <AccordionIcon/>
                                 <Box flex="1" textAlign="left" m={2}>
-                                    Json({relic.json.length}) 
+                                    Json({relic.jsons.length}) 
                                 </Box>
                             </AccordionButton>
                         </h2>
                         <AccordionPanel pb={4}>
-                            {createTable(relic.json)}
+                            {createTable(relic.jsons)}
                         </AccordionPanel>
                     </AccordionItem>
                     <AccordionItem>
@@ -342,7 +342,7 @@ const Data = () => {
             </Box>
         )
         }
-    else if(data_type === "json"){
+    else if(data_type === "jsons"){
         return (
             <Box m={2}>
                 <Heading as="h3" size="lg">{data_name}:</Heading>

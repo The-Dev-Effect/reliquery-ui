@@ -8,6 +8,9 @@ from reliquery import Relic, Reliquery, storage
 from typing import Dict, List, Any
 import base64
 import json
+import nbconvert
+import nbformat
+from IPython.display import HTML
 
 
 def get_router(Relic=Relic):
@@ -96,7 +99,7 @@ def get_router(Relic=Relic):
         return relic.get_text(text)
 
     @router.get(
-        "/reliquery/{storage_name}/{relic_type}/{name}/json/{json_name}",
+        "/reliquery/{storage_name}/{relic_type}/{name}/jsons/{json_name}",
         response_class=HTMLResponse,
     )
     async def reliquery_json(
@@ -286,7 +289,7 @@ class RelicResponse(BaseModel):
     text: List[Any] = []
     html: List[Any] = []
     images: List[Any] = []
-    json_field: List[Any] = Field(alias="json")
+    json_field: List[Any] = Field(alias="jsons")
     pandasdf: List[Any] = []
     files: List[Any] = []
     notebooks: List[Any] = []
@@ -316,7 +319,7 @@ def relic_response(relic: Relic) -> RelicResponse:
         text=description["text"],
         html=description["html"],
         images=description["images"],
-        json=description["json"],
+        jsons=description["jsons"],
         pandasdf=description["pandasdf"],
         files=description["files"],
         notebooks=description["notebooks"],
