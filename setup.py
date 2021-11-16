@@ -22,5 +22,5 @@ setup(
     package_data={"reliquery_ui": ["../frontend/dist/*"]},
     tests_require=["pytest"],
     install_requires=install_requires,
-    scripts=['bin/reliquery-ui'],
+    scripts=["bin/reliquery-ui"],
 )
