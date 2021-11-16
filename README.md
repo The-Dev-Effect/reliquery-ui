@@ -9,7 +9,7 @@ $ pip install reliquery-ui
 ```
 Run UI server
 ```
-$ uvicorn reliquery_ui.main:app
+$ reliquery-ui
 ```
 Navigate to http://localhost:8000/reliquery/demo/tutorial/intro to view Relics
 
