@@ -166,7 +166,7 @@ def get_router(Relic=Relic):
     )
     async def reliquery_storages() -> RelicNameResponse:
         reliquery = Reliquery()
-        
+
         return RelicNameResponse(relics=reliquery.get_relic_names())
 
     @router.get(
@@ -176,7 +176,6 @@ def get_router(Relic=Relic):
     async def reliquery_storages() -> RelicStoragesResponse:
         reliquery = Reliquery()
 
-        
         return RelicStoragesResponse(storage_names=list(reliquery.storage_map.keys()))
 
     @router.get(
@@ -186,7 +185,9 @@ def get_router(Relic=Relic):
     async def reliquery_relic_types(storage_name: str) -> RelicTypesResponse:
         reliquery = Reliquery()
 
-        return RelicTypesResponse(types=reliquery.get_relic_types_by_storage(storage_name))
+        return RelicTypesResponse(
+            types=reliquery.get_relic_types_by_storage(storage_name)
+        )
 
     @router.get(
         "/reliquery/{storage_name}/{relic_type}",
@@ -196,7 +197,9 @@ def get_router(Relic=Relic):
         reliquery = Reliquery()
 
         return RelicsResponse(
-            relics=reliquery.get_relic_names_by_storage_and_type(storage_name, relic_type)
+            relics=reliquery.get_relic_names_by_storage_and_type(
+                storage_name, relic_type
+            )
         )
 
     return router
@@ -205,8 +208,10 @@ def get_router(Relic=Relic):
 class RelicNameResponse(BaseModel):
     relics: List[Dict]
 
+
 class RelicsResponse(BaseModel):
     relics: List[str]
+
 
 class RelicTypesResponse(BaseModel):
     types: List[str]
