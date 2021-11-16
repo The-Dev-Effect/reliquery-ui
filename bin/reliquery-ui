@@ -1,0 +1,3 @@
+#!/bin/bash
+
+uvicorn reliquery_ui.main:app
