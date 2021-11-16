@@ -41,12 +41,6 @@ interface RelicTypes {
     types: string[]
 }
 
-// interface RelicName {
-//     name: string
-//     type: string
-//     storage: string
-// }
-
 interface Relics {
     relics: RelicName[]
 }

@@ -1,9 +1,10 @@
 from functools import wraps
+from os import name
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import HTMLResponse
 from fastapi.responses import Response
 from pydantic import BaseModel, Field
-from reliquery import Relic, Reliquery
+from reliquery import Relic, Reliquery, storage
 from typing import Dict, List, Any
 import base64
 import json
@@ -162,12 +163,17 @@ def get_router(Relic=Relic):
 
     @router.get(
         "/reliquery",
-        response_model=RelicNameResponse,
+        response_model=AllRelicNamesResponse,
     )
-    async def reliquery_storages() -> RelicNameResponse:
+    async def reliquery_storages() -> AllRelicNamesResponse:
         reliquery = Reliquery()
 
-        return RelicNameResponse(relics=reliquery.get_relic_names())
+        return AllRelicNamesResponse(
+            relics=[
+                RelicNameResponse(name=i["name"], type=i["type"], storage=i["storage"])
+                for i in reliquery.get_relic_names()
+            ]
+        )
 
     @router.get(
         "/reliquery/storages",
@@ -206,7 +212,13 @@ def get_router(Relic=Relic):
 
 
 class RelicNameResponse(BaseModel):
-    relics: List[Dict]
+    name: str
+    type: str
+    storage: str
+
+
+class AllRelicNamesResponse(BaseModel):
+    relics: List[RelicNameResponse]
 
 
 class RelicsResponse(BaseModel):
