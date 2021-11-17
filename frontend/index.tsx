@@ -128,6 +128,40 @@ const Relic = () => {
         }
     }
 
+    function createHtmlTable(metaDatas: MetaData[]) {
+        if (metaDatas.length === 0)
+            return "";
+        else {
+            return (
+                <>
+                    <Table variant="simple">
+                        <Thead>
+                            <Tr>
+                                {Object.keys(metaDatas[0]).map(key => (
+                                    <Th>{key}</Th>
+                                ))}
+                            </Tr>
+                        </Thead>
+                        <Tbody>
+                            {metaDatas.map(metaData => (
+                                <LinkBox as={Tr}>
+                                    {Object.keys(metaData).map(key => (
+                                        <Td>
+                                            <LinkOverlay isExternal={true}
+                                                        href=
+                                                        {`${base_path}/api/reliquery/${storage_name}/${relic_type}/${name}/html/${metaData.name}`}>
+                                                {metaData[key as keyof MetaData]}
+                                            </LinkOverlay>
+                                        </Td>
+                                    ))}
+                                </LinkBox>
+                            ))}
+                        </Tbody>
+                    </Table>
+                </>);
+        }
+    }
+
     function createFilesTable(metaDatas: MetaData[]) {
         if (metaDatas.length === 0)
             return "";
@@ -223,7 +257,7 @@ const Relic = () => {
                             </AccordionButton>
                         </h2>
                         <AccordionPanel pb={4}>
-                            {createTable(relic.html)}
+                            {createHtmlTable(relic.html)}
                         </AccordionPanel>
                     </AccordionItem>
                     <AccordionItem>
