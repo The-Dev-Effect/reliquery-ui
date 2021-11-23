@@ -32,7 +32,7 @@
     "webpack-dev-server": "^4.2.1"
   },
   "scripts": {
-    "start": "webpack serve --mode development",
+    "start": "webpack serve --mode development --env BUILD=dev",
     "build": "webpack --config webpack.config.js",
     "pretty": "prettier --write --ignore-unknown *.tsx"
   }
