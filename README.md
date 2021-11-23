@@ -1,8 +1,20 @@
 # Reliquery UI
-Frontend for Reliquery
-Science's Artifact Antiformat
+[![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/The-Dev-Effect/reliquery-ui?include_prereleases)](https://pypi.org/project/reliquery-ui/)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/The-Dev-Effect/reliquery-ui/Python%20package)](https://github.com/The-Dev-Effect/reliquery-ui/actions/workflows/main.yml)
 
-## Quickstart
+## Science's Artifact Anti-format UI
+A frontend UI for the Reliquery tool. Displaying Relics and their associated data. 
+
+## Table of Contents
+1. [Quickstart](#start)
+2. [Development](#dev)
+    1. [Local Install](#loc)
+    2. [Start Services](#serv)
+    3. [Link Location](#link)
+    4. [Web API Exploration](#api)
+3. [License](#lic)
+
+## Quickstart <a name="start"></a>
 Install Reliquery-UI using pip
 ```
 $ pip install reliquery-ui
@@ -13,9 +25,9 @@ $ reliquery-ui
 ```
 Navigate to http://localhost:8000/reliquery/demo/tutorial/intro to view Relics
 
-## For development
+## For development<a name="dev"></a>
 
-### Local Install
+### Local Install<a name="loc"></a>
 ```bash
 cd reliquery-ui
 pip install -e .
@@ -35,19 +47,19 @@ cd frontend
 yarn start
 ```
 
-### Link Location
+### Link Location<a name="link"></a>
 A Relic can be shared via a link like:
 <br />
 {server}/reliquery/storage_name/relic_type/relic_name
 <br />
 http://localhost:8000/reliquery/demo/tutorial/intro
 
-### Web Api Exploration
+### Web Api Exploration<a name="api"></a>
 {server}/redoc
 <br />
 http://localhost:8000/redoc
 
-## License
+## License<a name="lic"></a>
 
 Reliquery UI is free and open source! All code in this repository is dual-licensed under either:
 
