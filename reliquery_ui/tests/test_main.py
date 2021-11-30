@@ -1,8 +1,10 @@
 from typing import Dict
 
 from fastapi.testclient import TestClient
+from reliquery.relic import Reliquery
 
 from ..main import get_app
+from unittest.mock import Mock
 
 
 class TestRelic:
@@ -50,11 +52,11 @@ class TestRelic:
 
 
 def test_read_relic():
-    app = get_app(TestRelic)
+    app = get_app(TestRelic, Mock(type(Reliquery)))
     client = TestClient(app)
     response = client.get("/api/reliquery/default/basic/tutorial")
+
     assert response.status_code == 200
-    print(response)
     assert response.json() == {
         "name": "tutorial",
         "relic_type": "basic",

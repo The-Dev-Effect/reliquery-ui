@@ -8,6 +8,7 @@ from typing import List, Any
 import base64
 import json
 
+
 def cache_no_store(f):
     @wraps(f)
     def inner(*args, **kwargs):
@@ -17,20 +18,21 @@ def cache_no_store(f):
 
     return inner
 
-def get_router(Relic=Relic):
+
+def get_router(Relic=Relic, Reliquery=Reliquery):
     router = APIRouter()
     rq = Reliquery()
 
-    @router.get(
-        "/sync_reliquery", response_model=None
-    )
+    @router.get("/sync_reliquery", response_model=None)
     async def reliquery_relic() -> None:
         rq.sync_reliquery()
 
     @router.get(
         "/reliquery/{storage_name}/{relic_type}/{name}", response_model=RelicResponse
     )
-    async def reliquery_relic(storage_name: str, relic_type: str, name: str) -> RelicResponse:
+    async def reliquery_relic(
+        storage_name: str, relic_type: str, name: str
+    ) -> RelicResponse:
         if not Relic.relic_exists(
             name=name, relic_type=relic_type, storage_name=storage_name
         ):
@@ -241,9 +243,7 @@ def get_router(Relic=Relic):
     async def reliquery_storages() -> RelicStoragesResponse:
 
         return RelicStoragesResponse(
-            storage_names=[
-                RelicStorageName(storage_name=i) for i in rq.storage_map
-            ]
+            storage_names=[RelicStorageName(storage_name=i) for i in rq.storage_map]
         )
 
     @router.get(
@@ -251,15 +251,13 @@ def get_router(Relic=Relic):
         response_model=AllRelicNamesResponse,
     )
     async def reliquery_relic_names_by_storage(
-        storage_name: str
+        storage_name: str,
     ) -> AllRelicNamesResponse:
 
         return AllRelicNamesResponse(
             relics=[
                 RelicNameResponse(name=i["name"], type=i["type"], storage=i["storage"])
-                for i in rq.get_relic_names_by_storage(
-                    storage=storage_name
-                )
+                for i in rq.get_relic_names_by_storage(storage=storage_name)
             ]
         )
 
@@ -384,6 +382,3 @@ def relic_response(relic: Relic) -> RelicResponse:
         files=description["files"],
         notebooks=description["notebooks"],
     )
-
-
-router = get_router(Relic)
