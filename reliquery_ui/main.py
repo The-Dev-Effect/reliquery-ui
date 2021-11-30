@@ -52,5 +52,6 @@ def get_app(Relic=Relic, Reliquery=Reliquery):
 
     return app
 
-
-app = get_app(Relic)
+def create_app():
+    app = get_app()
+    return app
