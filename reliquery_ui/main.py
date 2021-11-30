@@ -8,10 +8,10 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from .routers import relics
 from .routers.relics import cache_no_store
-from reliquery import Relic
+from reliquery import Relic, Reliquery
 
 
-def get_app(Relic=Relic):
+def get_app(Relic=Relic, Reliquery=Reliquery):
     app = FastAPI()
     app.add_middleware(
         CORSMiddleware,
@@ -21,7 +21,9 @@ def get_app(Relic=Relic):
         allow_headers=["*"],
     )
 
-    app.include_router(relics.get_router(Relic), prefix="/api", tags=["relics"])
+    app.include_router(
+        relics.get_router(Relic, Reliquery), prefix="/api", tags=["relics"]
+    )
 
     rel_loc = os.path.dirname(__file__)
     dist_path = os.path.normpath(
