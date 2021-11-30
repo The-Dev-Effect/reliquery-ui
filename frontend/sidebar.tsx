@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { useState, useEffect } from "react";
-import {BrowserRouter as Router, Route, Switch, useParams,} from "react-router-dom";
-import { 
-    useRef,
-    ReactNode,
-    ReactText,
- } from 'react';
+import { BrowserRouter as Router, Route, Switch, useParams, } from "react-router-dom";
+import {
+  useRef,
+  ReactNode,
+  ReactText,
+} from 'react';
 import { base_path } from "./path_config";
 import {
   IconButton,
@@ -43,8 +43,8 @@ interface LinkItemProps {
   ref: string;
 }
 const LinkItems: Array<LinkItemProps> = [
-  { name: 'Home', icon: FiHome, ref: '/'},
-  { name: 'Relics', icon: FiBox, ref: '/dashboard/relics'},
+  { name: 'Home', icon: FiHome, ref: '/' },
+  { name: 'Relics', icon: FiBox, ref: '/dashboard/relics' },
   { name: 'Relic Types', icon: FiType, ref: "/dashboard/relic-types" },
   { name: 'Storages', icon: FiDatabase, ref: "/dashboard/storages" },
 ];
@@ -73,7 +73,6 @@ export default function SidebarWithHeader({
           <SidebarContent onClose={onClose} />
         </DrawerContent>
       </Drawer>
-      {/* mobilenav */}
       <MobileNav onOpen={onOpen} />
       <Box ml={{ base: 0, md: 60 }} p="4">
         {children}
@@ -99,14 +98,14 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       {...rest}>
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
         <HStack>
-        <Image src={logo} alt="Reliquery Logo" blockSize="50px"></Image>
-        <Heading size="md">Reliquery</Heading>
-        <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
+          <Image src={logo} alt="Reliquery Logo" blockSize="50px"></Image>
+          <Heading size="md">Reliquery</Heading>
+          <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
         </HStack>
       </Flex>
       {LinkItems.map((link) => (
         <NavItem key={link.name} icon={link.icon} link={link.ref}>
-            {link.name}
+          {link.name}
         </NavItem>
       ))}
     </Box>
@@ -156,42 +155,42 @@ interface MobileProps extends FlexProps {
 const SyncReplyToast = () => {
   const toast = useToast()
   const [success, setSuccess] = useState<boolean>(false);
-  
+
   useEffect(() => {
     const fetchData = async () => {
-        const result = await fetch(
-            `${base_path}/api/sync_reliquery`
-        );
+      const result = await fetch(
+        `${base_path}/api/sync_reliquery`
+      );
 
-        if (result.status === 200) {
-          setSuccess(true)
-        }
+      if (result.status === 200) {
+        setSuccess(true)
+      }
     };
 
     fetchData();
   }, []);
-  
+
   return (
-        <Button bg="orange.300" color="teal.300"
-          onClick={() =>
-            toast({
-              title: `sync reliquery`,
-              status: success ? "success" : "error",
-              isClosable: true,
-            })
-          }
-        >
-          Sync Reliquery
-        </Button>
+    <Button bg="orange.300" color="teal.300"
+      onClick={() =>
+        toast({
+          title: `sync reliquery`,
+          status: success ? "success" : "error",
+          isClosable: true,
+        })
+      }
+    >
+      Sync Reliquery
+    </Button>
   )
 }
 
 const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
   const toast = useToast()
 
-  const toastSuccess = async() => {
+  const toastSuccess = async () => {
     const result = await fetch(
-        `${base_path}/api/sync_reliquery`
+      `${base_path}/api/sync_reliquery`
     );
 
     toast({
@@ -228,17 +227,13 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
         Logo
       </Text>
 
-        <HStack spacing={{ base: '0', md: '6' }}>
-          <Button bg="orange.200"
-            onClick={toastSuccess}
-          >
-            Sync Reliquery
-          </Button>
-        </HStack>
+      <HStack spacing={{ base: '0', md: '6' }}>
+        <Button bg="orange.200"
+          onClick={toastSuccess}
+        >
+          Sync Reliquery
+        </Button>
+      </HStack>
     </Flex>
   );
 };
-
-function useFetch() {
-  throw new Error('Function not implemented.');
-}

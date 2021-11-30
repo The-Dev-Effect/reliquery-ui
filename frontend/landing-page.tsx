@@ -35,14 +35,14 @@ export const LandingPage = () => {
             </Text>
           </Heading>
           <Text color={'gray.500'}>
-          An anti-format storage tool aimed towards supporting scientists. Giving them the ability to store data how they want and where they want. 
+            An anti-format storage tool aimed towards supporting scientists. Giving them the ability to store data how they want and where they want.
           </Text>
           <Code>$ pip install reliquery</Code>
           <Text color={'gray.500'}>
-              To get started pip install <Link href="https://github.com/The-Dev-Effect/reliquery" color={"orange.500"}>Reliquery</Link> 
-              and start adding data to a Relic. You can then view that data on your Reliquery dashboard.
+            To get started pip install <Link href="https://github.com/The-Dev-Effect/reliquery" color={"orange.500"}>Reliquery</Link>
+            and start adding data to a Relic. You can then view that data on your Reliquery dashboard.
           </Text>
-         
+
           <Stack
             direction={'column'}
             spacing={3}
@@ -50,23 +50,23 @@ export const LandingPage = () => {
             alignSelf={'center'}
             position={'relative'}>
             <Box>
-                  <Button
-                  colorScheme={'green'}
-                  bg={'green.400'}
-                  rounded={'full'}
-                  px={6}
-                  _hover={{
-                      bg: 'green.500',
-                  }}>
-                      <LinkOverlay href="dashboard" isExternal={false}></LinkOverlay>
-                  Reliquery Dashboard
-                  </Button>
+              <Button
+                colorScheme={'green'}
+                bg={'green.400'}
+                rounded={'full'}
+                px={6}
+                _hover={{
+                  bg: 'green.500',
+                }}>
+                <LinkOverlay href="dashboard" isExternal={false}></LinkOverlay>
+                Reliquery Dashboard
+              </Button>
             </Box>
             <Box>
-                  <Button variant={'link'} colorScheme={'blue'} size={'sm'} >
-                  <LinkOverlay href="https://github.com/The-Dev-Effect/reliquery-ui" isExternal={true}></LinkOverlay>
-                  Learn more
-                  </Button>
+              <Button variant={'link'} colorScheme={'blue'} size={'sm'} >
+                <LinkOverlay href="https://github.com/The-Dev-Effect/reliquery-ui" isExternal={true}></LinkOverlay>
+                Learn more
+              </Button>
             </Box>
           </Stack>
         </Stack>
