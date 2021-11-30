@@ -7,17 +7,8 @@ from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 
 from .routers import relics
+from .routers.relics import cache_no_store
 from reliquery import Relic
-
-
-def cache_no_store(f):
-    @wraps(f)
-    def inner(*args, **kwargs):
-        resp = f(*args, **kwargs)
-        resp.headers["Cache-Control"] = "no-store"
-        return resp
-
-    return inner
 
 
 def get_app(Relic=Relic):
