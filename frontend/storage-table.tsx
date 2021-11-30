@@ -3,7 +3,6 @@ import { LinkBox, LinkOverlay, Heading, Table, Tbody, Td, Th, Thead, Tr, Circula
 import * as React from "react"
 import { base_path } from "./path_config";
 import { useState, useEffect } from "react";
-import types from "@emotion/cache";
 
 type StorageName = Record<"storage_name", string>;
 
@@ -21,18 +20,18 @@ export const StorageTable = () => {
             const result = await fetch(
                 `${base_path}/api/storages`
             );
-            
+
             const json = await result.json();
             setStorages(json);
         };
 
         fetchData();
     }, []);
-    
+
     if (storages.storage_names.length === 0) {
-        return <CircularProgress isIndeterminate/>;
+        return <CircularProgress isIndeterminate />;
     }
-    
+
     return (
         <Box a="center">
             <Table variant="striped">
@@ -52,7 +51,7 @@ export const StorageTable = () => {
                             {Object.keys(storage).map(key => (
                                 <Td>
                                     <LinkOverlay isExternal={false}
-                                            href={`/dashboard/storages/${storage.storage_name}`}>{storage[key as keyof StorageName]}</LinkOverlay>
+                                        href={`/dashboard/storages/${storage.storage_name}`}>{storage[key as keyof StorageName]}</LinkOverlay>
                                 </Td>
                             ))}
                         </LinkBox>

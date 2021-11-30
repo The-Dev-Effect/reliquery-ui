@@ -1,6 +1,21 @@
-FROM python:3.9
-RUN pip install reliquery-ui==0.2.5
+FROM node:16-alpine as install-stage
+WORKDIR /frontend
+COPY ./frontend /frontend
 
+RUN yarn install
+
+# build stage
+FROM install-stage as build-stage
+RUN yarn build
+
+# build a fastapi container
+FROM python:3.9
+WORKDIR /
+COPY ./requirements.txt /
+RUN pip install -r requirements.txt
+COPY --from=build-stage /frontend/dist /frontend/dist
+COPY . .
+RUN pip install -e .
 RUN mkdir /root/reliquery/
 
 EXPOSE 8000

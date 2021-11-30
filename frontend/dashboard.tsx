@@ -15,14 +15,14 @@ const DashboardBody = () => {
         <Box bg={"white"} border={"solid"} borderColor={"gray.400"} m={"5px"}>
             <Switch>
                 <Route path="/dashboard/reliquery/:storage_name/:relic_type/:name/:data_type/:data_name"
-                                   children={<Data/>}/>
-                <Route path="/dashboard/relic-types/:storage_name/:relic_type" children={<RelicTable/>}/>
-                <Route path="/dashboard/storages/:storage_name" children={<RelicTable/>}/>
-                <Route path="/dashboard/reliquery/:storage_name/:relic_type/:name" children={<Relic/>}/>
-                <Route path="/dashboard/relics" children={<RelicTable/>}/>
-                <Route path="/dashboard/relic-types" children={<RelicTypeTable/>}/>
-                <Route path="/dashboard/storages" children={<StorageTable/>}/>
-                <Route path="/dashboard" children={<DashboardCard/>}/>
+                    children={<Data />} />
+                <Route path="/dashboard/relic-types/:storage_name/:relic_type" children={<RelicTable />} />
+                <Route path="/dashboard/storages/:storage_name" children={<RelicTable />} />
+                <Route path="/dashboard/reliquery/:storage_name/:relic_type/:name" children={<Relic />} />
+                <Route path="/dashboard/relics" children={<RelicTable />} />
+                <Route path="/dashboard/relic-types" children={<RelicTypeTable />} />
+                <Route path="/dashboard/storages" children={<StorageTable />} />
+                <Route path="/dashboard" children={<DashboardCard />} />
             </Switch>
         </Box>
     )
@@ -31,7 +31,7 @@ const DashboardBody = () => {
 export const Dashboard = () => {
     return (
         <>
-            <SidebarWithHeader children={<DashboardBody/>} />
+            <SidebarWithHeader children={<DashboardBody />} />
         </>
     )
 }

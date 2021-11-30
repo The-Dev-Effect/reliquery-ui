@@ -1,5 +1,5 @@
 import * as React from "react";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
     Accordion,
@@ -38,12 +38,12 @@ interface Relic {
     json: MetaData[]
     pandasdf: MetaData[]
     files: MetaData[]
-    notebooks:MetaData[]
+    notebooks: MetaData[]
 }
 
 export const Relic = () => {
     // @ts-ignore
-    const {name, relic_type, storage_name} = useParams();
+    const { name, relic_type, storage_name } = useParams();
     const [relic, setRelic] = useState<Relic>({
         name: '',
         relic_type: '',
@@ -72,10 +72,10 @@ export const Relic = () => {
 
         fetchData();
     }, []);
-    
+
 
     if (relic.name === '') {
-        return <CircularProgress isIndeterminate/>;
+        return <CircularProgress isIndeterminate />;
     }
 
     function createTable(metaDatas: MetaData[]) {
@@ -98,7 +98,7 @@ export const Relic = () => {
                                     {Object.keys(metaData).map(key => (
                                         <Td>
                                             <LinkOverlay isExternal={true}
-                                                        href={relic.name + "/" + metaData.data_type + "/" + metaData.name}>
+                                                href={relic.name + "/" + metaData.data_type + "/" + metaData.name}>
                                                 {metaData[key as keyof MetaData]}
                                             </LinkOverlay>
                                         </Td>
@@ -161,8 +161,8 @@ export const Relic = () => {
                                     {Object.keys(metaData).map(key => (
                                         <Td>
                                             <LinkOverlay isExternal={true}
-                                                        href=
-                                                        {`${base_path}/api/reliquery/${storage_name}/${relic_type}/${name}/html/${metaData.name}`}>
+                                                href=
+                                                {`${base_path}/api/reliquery/${storage_name}/${relic_type}/${name}/html/${metaData.name}`}>
                                                 {metaData[key as keyof MetaData]}
                                             </LinkOverlay>
                                         </Td>
@@ -193,11 +193,11 @@ export const Relic = () => {
                             <Tr>
                                 {Object.keys(metaData).map(key => (
                                     <Td>{metaData[key as keyof MetaData]}</Td>
-                                    ))}
+                                ))}
                                 <LinkBox as={Button}>
                                     Download
-                                <LinkOverlay isExternal={false}
-                                    href={`${base_path}/api/reliquery/${storage_name}/${relic_type}/${name}/files/${metaData.name}`}></LinkOverlay>
+                                    <LinkOverlay isExternal={false}
+                                        href={`${base_path}/api/reliquery/${storage_name}/${relic_type}/${name}/files/${metaData.name}`}></LinkOverlay>
                                 </LinkBox>
                             </Tr>
                         ))}
@@ -226,11 +226,11 @@ export const Relic = () => {
                                     href={relic.name + "/notebooks-html/" + metaData.name}></LinkOverlay>
                                 {Object.keys(metaData).map(key => (
                                     <Td>{metaData[key as keyof MetaData]}</Td>
-                                    ))}
+                                ))}
                                 <LinkBox as={Button}>
                                     Download
-                                <LinkOverlay isExternal={false}
-                                    href={`${base_path}/api/reliquery/${storage_name}/${relic_type}/${name}/notebooks/${metaData.name}`}></LinkOverlay>
+                                    <LinkOverlay isExternal={false}
+                                        href={`${base_path}/api/reliquery/${storage_name}/${relic_type}/${name}/notebooks/${metaData.name}`}></LinkOverlay>
                                 </LinkBox>
                             </LinkBox>
                         ))}
@@ -250,7 +250,7 @@ export const Relic = () => {
                     <AccordionItem>
                         <h2>
                             <AccordionButton>
-                                <AccordionIcon/>
+                                <AccordionIcon />
                                 <Box flex="1" textAlign="left" m={2}>
                                     Array({relic.arrays.length})
                                 </Box>
@@ -263,7 +263,7 @@ export const Relic = () => {
                     <AccordionItem>
                         <h2>
                             <AccordionButton>
-                                <AccordionIcon/>
+                                <AccordionIcon />
                                 <Box flex="1" textAlign="left" m={2}>
                                     HTML({relic.html.length})
                                 </Box>
@@ -276,7 +276,7 @@ export const Relic = () => {
                     <AccordionItem>
                         <h2>
                             <AccordionButton>
-                                <AccordionIcon/>
+                                <AccordionIcon />
                                 <Box flex="1" textAlign="left" m={2}>
                                     TEXT({relic.text.length})
                                 </Box>
@@ -289,7 +289,7 @@ export const Relic = () => {
                     <AccordionItem>
                         <h2>
                             <AccordionButton>
-                                <AccordionIcon/>
+                                <AccordionIcon />
                                 <Box flex="1" textAlign="left" m={2}>
                                     IMAGES({relic.images.length})
                                 </Box>
@@ -302,9 +302,9 @@ export const Relic = () => {
                     <AccordionItem>
                         <h2>
                             <AccordionButton>
-                                <AccordionIcon/>
+                                <AccordionIcon />
                                 <Box flex="1" textAlign="left" m={2}>
-                                    Json({relic.json.length}) 
+                                    Json({relic.json.length})
                                 </Box>
                             </AccordionButton>
                         </h2>
@@ -315,9 +315,9 @@ export const Relic = () => {
                     <AccordionItem>
                         <h2>
                             <AccordionButton>
-                                <AccordionIcon/>
+                                <AccordionIcon />
                                 <Box flex="1" textAlign="left" m={2}>
-                                    Pandas DataFrame({relic.pandasdf.length}) 
+                                    Pandas DataFrame({relic.pandasdf.length})
                                 </Box>
                             </AccordionButton>
                         </h2>
@@ -328,9 +328,9 @@ export const Relic = () => {
                     <AccordionItem>
                         <h2>
                             <AccordionButton>
-                                <AccordionIcon/>
+                                <AccordionIcon />
                                 <Box flex="1" textAlign="left" m={2}>
-                                    Files({relic.files.length}) 
+                                    Files({relic.files.length})
                                 </Box>
                             </AccordionButton>
                         </h2>
@@ -341,9 +341,9 @@ export const Relic = () => {
                     <AccordionItem>
                         <h2>
                             <AccordionButton>
-                                <AccordionIcon/>
+                                <AccordionIcon />
                                 <Box flex="1" textAlign="left" m={2}>
-                                    Notebooks({relic.notebooks.length}) 
+                                    Notebooks({relic.notebooks.length})
                                 </Box>
                             </AccordionButton>
                         </h2>
