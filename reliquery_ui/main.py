@@ -52,6 +52,7 @@ def get_app(Relic=Relic, Reliquery=Reliquery):
 
     return app
 
+
 def create_app():
     app = get_app()
     return app
