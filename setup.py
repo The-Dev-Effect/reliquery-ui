@@ -1,7 +1,7 @@
 from setuptools import find_packages, setup
 
 install_requires = [
-    "reliquery >= 0.2.9",
+    "reliquery >= 0.3.1",
     "numpy >= 1.16",
     "black>=21.4b",
     "fastapi[all]",

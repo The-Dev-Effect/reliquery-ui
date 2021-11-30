@@ -1,6 +1,6 @@
 import * as React from "react";
-import {render} from "react-dom";
-import {BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { render } from "react-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { LandingPage } from "./landing-page";
 import {
     ChakraProvider,
@@ -11,10 +11,10 @@ const App = () => {
     return (
         <ChakraProvider>
             <Router>
-                <div> 
+                <div>
                     <Switch>
-                        <Route path="/dashboard" children={<Dashboard />}/>
-                        <Route path="/" children={<LandingPage/>}/>
+                        <Route path="/dashboard" children={<Dashboard />} />
+                        <Route path="/" children={<LandingPage />} />
                     </Switch>
                 </div>
             </Router>
@@ -23,5 +23,5 @@ const App = () => {
 };
 
 render(
-    <App/>
+    <App />
     , document.getElementById("root"));
