@@ -94,7 +94,7 @@ export const RelicTable = () => {
                 </BreadcrumbItem>
 
                 <BreadcrumbItem isCurrentPage>
-                    <BreadcrumbLink href="/dashboard/">Relics</BreadcrumbLink>
+                    <BreadcrumbLink>Relics</BreadcrumbLink>
                 </BreadcrumbItem>
             </Breadcrumb>
             <Table variant="striped">
