@@ -201,7 +201,6 @@ def get_router(Relic=Relic, Reliquery=Reliquery):
         "/reliquery/{storage_name}/{relic_type}/{name}/notebooks/{notebooks_name}",
         response_class=Response,
     )
-    
     async def reliquery_notebooks(
         storage_name: str, relic_type: str, name: str, notebooks_name: str
     ) -> Response:
