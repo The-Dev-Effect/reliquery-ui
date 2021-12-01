@@ -4,11 +4,12 @@ import {
     Center,
     useColorModeValue,
     Heading,
-    Text,
     Stack,
     LinkOverlay,
-    Image,
     Icon,
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
 } from '@chakra-ui/react';
 
 import {
@@ -31,38 +32,46 @@ const CardItems: Array<CardItemProps> = [
 
 export const DashboardCard = () => {
     return (
-        <Center py={12}>
-            {CardItems.map(card => (
-                <Box
-                    role={'group'}
-                    p={6}
-                    maxW={'330px'}
-                    w={'full'}
-                    bg={useColorModeValue('white', 'gray.800')}
-                    boxShadow={'2xl'}
-                    rounded={'lg'}
-                    pos={'relative'}
-                    zIndex={1}>
+        <Box>
+            <Breadcrumb fontWeight='medium' fontSize='sm'>
+                <BreadcrumbItem>
+                    <BreadcrumbLink href='/'>Home</BreadcrumbLink>
+                </BreadcrumbItem>
 
-                    <Stack pt={10} align={'center'}>
-                        <LinkOverlay href={card.ref} isExternal={false}></LinkOverlay>
-                        <Icon
-                            mr="4"
-                            fontSize="108"
-                            _groupHover={{
-                                color: 'orange',
-                            }}
-                            as={card.icon}
-                        />
-                        <Text color={'gray.500'} fontSize={'sm'} textTransform={'uppercase'}>
-                            Brand
-                        </Text>
-                        <Heading fontSize={'2xl'} fontFamily={'body'} fontWeight={500}>
-                            {card.name}
-                        </Heading>
-                    </Stack>
-                </Box>
-            ))}
-        </Center>
+                <BreadcrumbItem isCurrentPage>
+                    <BreadcrumbLink href='/dashboard'>Dashboard</BreadcrumbLink>
+                </BreadcrumbItem>
+            </Breadcrumb>
+            <Center py={12}>
+                {CardItems.map(card => (
+                    <Box
+                        role={'group'}
+                        p={6}
+                        maxW={'330px'}
+                        w={'full'}
+                        bg={useColorModeValue('white', 'gray.800')}
+                        boxShadow={'2xl'}
+                        rounded={'lg'}
+                        pos={'relative'}
+                        zIndex={1}>
+
+                        <Stack pt={10} align={'center'}>
+                            <LinkOverlay href={card.ref} isExternal={false}></LinkOverlay>
+                            <Icon
+                                mr="4"
+                                fontSize="108"
+                                _groupHover={{
+                                    color: 'orange',
+                                }}
+                                as={card.icon}
+                            />
+                            <Heading fontSize={'2xl'} fontFamily={'body'} fontWeight={500}>
+                                {card.name}
+                            </Heading>
+                        </Stack>
+                    </Box>
+                ))}
+            </Center>
+        </Box>
     );
 }
