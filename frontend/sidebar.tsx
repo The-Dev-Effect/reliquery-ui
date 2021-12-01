@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useState, useEffect } from "react";
 import {
   ReactNode,
   ReactText,
@@ -150,39 +149,6 @@ interface MobileProps extends FlexProps {
   onOpen: () => void;
 }
 
-const SyncReplyToast = () => {
-  const toast = useToast()
-  const [success, setSuccess] = useState<boolean>(false);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await fetch(
-        `${base_path}/api/sync_reliquery`
-      );
-
-      if (result.status === 200) {
-        setSuccess(true)
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  return (
-    <Button bg="orange.300" color="teal.300"
-      onClick={() =>
-        toast({
-          title: `sync reliquery`,
-          status: success ? "success" : "error",
-          isClosable: true,
-        })
-      }
-    >
-      Sync Reliquery
-    </Button>
-  )
-}
-
 const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
   const toast = useToast()
 
@@ -224,7 +190,6 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
         fontWeight="bold">
         Logo
       </Text>
-
       <HStack spacing={{ base: '0', md: '6' }}>
         <Button bg="orange.200"
           onClick={toastSuccess}

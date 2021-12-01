@@ -2,6 +2,9 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import {
     Box,
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
     CircularProgress,
     Heading,
     LinkBox,
@@ -46,6 +49,19 @@ export const RelicTypeTable = () => {
 
     return (
         <Box a="center">
+            <Breadcrumb fontWeight='medium' fontSize='sm'>
+                <BreadcrumbItem>
+                    <BreadcrumbLink href='/'>Home</BreadcrumbLink>
+                </BreadcrumbItem>
+
+                <BreadcrumbItem>
+                    <BreadcrumbLink href='/dashboard'>Dashboard</BreadcrumbLink>
+                </BreadcrumbItem>
+
+                <BreadcrumbItem isCurrentPage>
+                    <BreadcrumbLink href='/dashboard/relic-types'>Relic types</BreadcrumbLink>
+                </BreadcrumbItem>
+            </Breadcrumb>
             <Table variant="striped">
                 <Thead>
                     <Heading size="2xl" p={"20px"}>Relic Types</Heading>

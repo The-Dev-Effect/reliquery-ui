@@ -1,5 +1,5 @@
 import { Box } from "@chakra-ui/layout"
-import { LinkBox, LinkOverlay, Heading, Table, Tbody, Td, Th, Thead, Tr, CircularProgress } from "@chakra-ui/react";
+import { LinkBox, LinkOverlay, Heading, Table, Tbody, Td, Th, Thead, Tr, CircularProgress, Breadcrumb, BreadcrumbItem, BreadcrumbLink } from "@chakra-ui/react";
 import * as React from "react"
 import { base_path } from "./path_config";
 import { useState, useEffect } from "react";
@@ -34,6 +34,19 @@ export const StorageTable = () => {
 
     return (
         <Box a="center">
+            <Breadcrumb fontWeight='medium' fontSize='sm'>
+                <BreadcrumbItem>
+                    <BreadcrumbLink href='/'>Home</BreadcrumbLink>
+                </BreadcrumbItem>
+
+                <BreadcrumbItem>
+                    <BreadcrumbLink href='/dashboard'>Dashboard</BreadcrumbLink>
+                </BreadcrumbItem>
+
+                <BreadcrumbItem isCurrentPage>
+                    <BreadcrumbLink href='/dashboard/storages'>Storages</BreadcrumbLink>
+                </BreadcrumbItem>
+            </Breadcrumb>
             <Table variant="striped">
                 <Thead>
                     <Heading size="2xl" p={"20px"}>Storage Names</Heading>

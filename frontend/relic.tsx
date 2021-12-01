@@ -8,6 +8,9 @@ import {
     AccordionItem,
     AccordionPanel,
     Box,
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
     Button,
     CircularProgress,
     Heading,
@@ -222,11 +225,11 @@ export const Relic = () => {
                     <Tbody>
                         {metaDatas.map(metaData => (
                             <LinkBox as={Tr}>
-                                <LinkOverlay isExternal={true}
-                                    href={relic.name + "/notebooks-html/" + metaData.name}></LinkOverlay>
                                 {Object.keys(metaData).map(key => (
                                     <Td>{metaData[key as keyof MetaData]}</Td>
                                 ))}
+                                <LinkOverlay isExternal={false}
+                                    href={relic.name + "/notebooks-html/" + metaData.name}></LinkOverlay>
                                 <LinkBox as={Button}>
                                     Download
                                     <LinkOverlay isExternal={false}
@@ -241,6 +244,23 @@ export const Relic = () => {
 
     return (
         <Box m={2}>
+            <Breadcrumb fontWeight='medium' fontSize='sm'>
+                <BreadcrumbItem>
+                    <BreadcrumbLink href='/'>Home</BreadcrumbLink>
+                </BreadcrumbItem>
+
+                <BreadcrumbItem>
+                    <BreadcrumbLink href='/dashboard'>Dashboard</BreadcrumbLink>
+                </BreadcrumbItem>
+
+                <BreadcrumbItem>
+                    <BreadcrumbLink href='/dashboard/relics'>Relics</BreadcrumbLink>
+                </BreadcrumbItem>
+
+                <BreadcrumbItem isCurrentPage>
+                    <BreadcrumbLink>Relic</BreadcrumbLink>
+                </BreadcrumbItem>
+            </Breadcrumb>
             <Stack spacing={3}>
                 <Heading as="h4" size="sm">Name:</Heading>
                 <Text fontSize="lg">{relic.name}</Text>
