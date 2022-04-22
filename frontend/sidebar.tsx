@@ -165,7 +165,8 @@ const MobileNav = ({ onOpen, onRefreshed, ...rest }: MobileProps) => {
     toast({
       title: `Syncing Reliquery`,
       status: "success",
-      isClosable: false,
+      isClosable: true,
+      duration:null
     })
 
     const result = await fetch(
@@ -176,6 +177,7 @@ const MobileNav = ({ onOpen, onRefreshed, ...rest }: MobileProps) => {
       title: `Synced Reliquery`,
       status: result.status === 200 ? "success" : "error",
       isClosable: true,
+      duration:null
     })
     
     onRefreshed();
