@@ -2,6 +2,7 @@ import * as React from 'react';
 import {
   ReactNode,
   ReactText,
+  useState
 } from 'react';
 import { base_path } from "./path_config";
 import {
@@ -52,11 +53,18 @@ export default function SidebarWithHeader({
   children: ReactNode;
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [refreshCount, setRefreshCount ] = useState(0);
+
+  const onRefreshed = () => {
+      setRefreshCount(refreshCount+1);
+  }
+  
   return (
     <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
       <SidebarContent
         onClose={() => onClose}
         display={{ base: 'none', md: 'block' }}
+      
       />
       <Drawer
         autoFocus={false}
@@ -70,8 +78,8 @@ export default function SidebarWithHeader({
           <SidebarContent onClose={onClose} />
         </DrawerContent>
       </Drawer>
-      <MobileNav onOpen={onOpen} />
-      <Box ml={{ base: 0, md: 60 }} p="4">
+      <MobileNav onRefreshed={onRefreshed} onOpen={onOpen} />
+      <Box ml={{ base: 0, md: 60 }} p="4" key={refreshCount}>
         {children}
       </Box>
     </Box>
@@ -82,7 +90,7 @@ interface SidebarProps extends BoxProps {
   onClose: () => void;
 }
 
-const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
+const SidebarContent = ({ onClose,  ...rest }: SidebarProps) => {
   return (
     <Box
       transition="3s ease"
@@ -147,21 +155,30 @@ const NavItem = ({ icon, children, link, ...rest }: NavItemProps) => {
 
 interface MobileProps extends FlexProps {
   onOpen: () => void;
+  onRefreshed: () => void;
 }
 
-const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
+const MobileNav = ({ onOpen, onRefreshed, ...rest }: MobileProps) => {
   const toast = useToast()
-
+  
   const toastSuccess = async () => {
+    toast({
+      title: `Syncing Reliquery`,
+      status: "success",
+      isClosable: false,
+    })
+
     const result = await fetch(
       `${base_path}/api/sync_reliquery`
     );
 
     toast({
-      title: `sync reliquery`,
+      title: `Synced Reliquery`,
       status: result.status === 200 ? "success" : "error",
       isClosable: true,
     })
+    
+    onRefreshed();
   }
 
   return (
