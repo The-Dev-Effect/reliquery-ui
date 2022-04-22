@@ -39,7 +39,7 @@ new shell
 ```bash
 cd frontend
 yarn build
-uvicorn reliquery_ui.main:app --reload
+reliquery-ui
 ```
 for dev gui
 ```bash
