@@ -8,11 +8,12 @@ import { RelicTable } from "./relic-table";
 import { RelicTypeTable } from "./relic-type-table";
 import SidebarWithHeader from "./sidebar";
 import { StorageTable } from "./storage-table";
+import { useColorModeValue } from "@chakra-ui/color-mode";
 
 
 const DashboardBody = () => {
     return (
-        <Box bg={"white"} border={"solid"} borderColor={"gray.400"} m={"5px"}>
+        <Box bg={useColorModeValue('white', 'gray.800')} border={"solid"} borderColor={"gray.400"} m={"5px"}>
             <Switch>
                 <Route path="/dashboard/reliquery/:storage_name/:relic_type/:name/:data_type/:data_name"
                     children={<Data />} />
