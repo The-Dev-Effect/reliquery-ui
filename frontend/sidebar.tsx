@@ -160,29 +160,39 @@ interface MobileProps extends FlexProps {
 
 const MobileNav = ({ onOpen, onRefreshed, ...rest }: MobileProps) => {
   const toast = useToast()
-  
+  const toastIdRef = React.useRef(null)
+
+  function close(){
+    if(toastIdRef.current){
+      toast.close(toastIdRef.current)
+    }
+  }
+
   const toastSuccess = async () => {
-    toast({
+    toastIdRef.current = toast({
       title: `Syncing Reliquery`,
       status: "success",
       isClosable: true,
-      duration:null
+      duration: null
     })
 
     const result = await fetch(
       `${base_path}/api/sync_reliquery`
     );
 
+    if (toastIdRef.current) {
+      toast.close(toastIdRef.current)
+    }
+    
     toast({
       title: `Synced Reliquery`,
       status: result.status === 200 ? "success" : "error",
-      isClosable: true,
-      duration:null
+      isClosable: true
     })
-    
-    onRefreshed();
-  }
 
+    onRefreshed();
+    
+  }
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
