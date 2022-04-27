@@ -29,7 +29,9 @@ jobs:
         with:
           node-version: 16.x
       - name: Install frotnend(yarn) dependencies
+        working-directory: ./frontend
         run: yarn
       - name: Check prettier
+        working-directory: ./frontend
         run: |
           yarn prettier --check /frontend
