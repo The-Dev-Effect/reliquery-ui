@@ -5,4 +5,3 @@ fastapi
 requests
 uvicorn
 aiofiles
-prettier

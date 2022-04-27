@@ -7,7 +7,6 @@ install_requires = [
     "fastapi[all]",
     "requests",
     "uvicorn",
-    "prettier"
 ]
 
 
