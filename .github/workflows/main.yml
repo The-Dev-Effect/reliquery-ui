@@ -34,4 +34,4 @@ jobs:
       - name: Check prettier
         working-directory: ./frontend
         run: |
-          yarn prettier --check /frontend
+          yarn prettier --check .
