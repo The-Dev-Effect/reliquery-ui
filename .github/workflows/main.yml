@@ -24,3 +24,12 @@ jobs:
       - name: Test with pytest
         run: |
           pytest
+      - name: Install node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
+      - name: Install frotnend(yarn) dependencies
+        run: yarn
+      - name: Check prettier
+        run: |
+          prettier --check /frontend
