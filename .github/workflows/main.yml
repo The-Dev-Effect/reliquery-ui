@@ -32,4 +32,4 @@ jobs:
         run: yarn
       - name: Check prettier
         run: |
-          prettier --check /frontend
+          yarn prettier --check /frontend
