@@ -43,6 +43,7 @@ interface Relic {
   pandasdf: MetaData[];
   files: MetaData[];
   notebooks: MetaData[];
+  videos: MetaData[];
 }
 
 export const Relic = () => {
@@ -59,6 +60,7 @@ export const Relic = () => {
     pandasdf: new Array<MetaData>(),
     files: new Array<MetaData>(),
     notebooks: new Array<MetaData>(),
+    videos: new Array<MetaData>(),
   });
 
   useEffect(() => {
@@ -380,6 +382,19 @@ export const Relic = () => {
             </h2>
             <AccordionPanel pb={4}>
               {createNotebooksTable(relic.notebooks)}
+            </AccordionPanel>
+          </AccordionItem>
+          <AccordionItem>
+            <h2>
+              <AccordionButton>
+                <AccordionIcon />
+                <Box flex="1" textAlign="left" m={2}>
+                  Videos({relic.videos.length})
+                </Box>
+              </AccordionButton>
+            </h2>
+            <AccordionPanel pb={4}>
+              {createTable(relic.videos)}
             </AccordionPanel>
           </AccordionItem>
         </Accordion>
