@@ -2,6 +2,7 @@ from functools import wraps
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import HTMLResponse
 from fastapi.responses import Response
+from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, Field
 from reliquery import Relic, Reliquery
 from typing import List, Any
@@ -223,6 +224,27 @@ def get_router(Relic=Relic, Reliquery=Reliquery):
         return response
 
     @router.get(
+        "/reliquery/{storage_name}/{relic_type}/{name}/videos/{video}",
+        response_class=StreamingResponse,
+    )
+    async def reliquery_videos(
+        storage_name: str, relic_type: str, name: str, video: str
+    ) -> StreamingResponse:
+
+        if not Relic.relic_exists(
+            name=name, relic_type=relic_type, storage_name=storage_name
+        ):
+            raise HTTPException(status_code=404, detail="Relic not found")
+        relic = Relic(
+            name=name,
+            relic_type=relic_type,
+            storage_name=storage_name,
+            check_exists=False,
+        )
+        video_bytes = relic.get_video(video)
+        return StreamingResponse(video_bytes, media_type="video/mp4")
+
+    @router.get(
         "/reliquery",
         response_model=AllRelicNamesResponse,
     )
@@ -350,6 +372,7 @@ class RelicResponse(BaseModel):
     pandasdf: List[Any] = []
     files: List[Any] = []
     notebooks: List[Any] = []
+    videos: List[Any] = []
 
     class Config:
         arbitrary_types_allowed = True
@@ -380,4 +403,5 @@ def relic_response(relic: Relic) -> RelicResponse:
         pandasdf=description["pandasdf"],
         files=description["files"],
         notebooks=description["notebooks"],
+        videos=description["videos"],
     )

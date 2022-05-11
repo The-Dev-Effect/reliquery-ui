@@ -47,6 +47,7 @@ class TestRelic:
                 "pandasdf": [],
                 "files": [],
                 "notebooks": [],
+                "videos": [],
             }
         }
 
@@ -68,4 +69,5 @@ def test_read_relic():
         "pandasdf": [],
         "files": [],
         "notebooks": [],
+        "videos": [],
     }
