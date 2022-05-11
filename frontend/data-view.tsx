@@ -35,7 +35,7 @@ export const Data = () => {
       const json = await result.text();
       setData(json);
     };
-    if(data_type !== 'videos'){
+    if (data_type !== "videos") {
       fetchData();
     }
   }, []);
@@ -94,7 +94,7 @@ export const Data = () => {
         <ReactJson src={JSON.parse(data)} collapsed={true} theme={"monokai"} />
       </Box>
     );
-  } else if (data_type === "videos"){
+  } else if (data_type === "videos") {
     return (
       <Box m={2}>
         <DataBreadcrumb />
@@ -102,13 +102,15 @@ export const Data = () => {
           {data_name}:
         </Heading>
         <video controls width="250">
-          <source src={`${base_path}/api/reliquery/${storage_name}/${relic_type}/${name}/${data_type}/${data_name}`}type="video/mp4"></source>
+          <source
+            src={`${base_path}/api/reliquery/${storage_name}/${relic_type}/${name}/${data_type}/${data_name}`}
+            type="video/mp4"
+          ></source>
           Sorry, your browser doesn't support embedded videos.
         </video>
       </Box>
     );
-  }
-  else {
+  } else {
     return (
       <Box m={2}>
         <DataBreadcrumb />

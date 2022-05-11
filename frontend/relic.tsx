@@ -393,9 +393,7 @@ export const Relic = () => {
                 </Box>
               </AccordionButton>
             </h2>
-            <AccordionPanel pb={4}>
-              {createTable(relic.videos)}
-            </AccordionPanel>
+            <AccordionPanel pb={4}>{createTable(relic.videos)}</AccordionPanel>
           </AccordionItem>
         </Accordion>
       </Stack>
