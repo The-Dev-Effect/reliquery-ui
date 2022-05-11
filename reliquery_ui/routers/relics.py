@@ -47,7 +47,7 @@ def get_router(Relic=Relic, Reliquery=Reliquery):
         )
 
         return relic_response(relic)
-        
+
     @router.get(
         "/reliquery/{storage_name}/{relic_type}/{name}/html/{html}",
         response_class=HTMLResponse,
@@ -223,8 +223,6 @@ def get_router(Relic=Relic, Reliquery=Reliquery):
 
         return response
 
-
-     
     @router.get(
         "/reliquery/{storage_name}/{relic_type}/{name}/videos/{video}",
         response_class=StreamingResponse,
@@ -244,9 +242,7 @@ def get_router(Relic=Relic, Reliquery=Reliquery):
             check_exists=False,
         )
         video_bytes = relic.get_video(video)
-        return StreamingResponse(video_bytes, media_type='video/mp4')
-            
-
+        return StreamingResponse(video_bytes, media_type="video/mp4")
 
     @router.get(
         "/reliquery",
@@ -407,5 +403,5 @@ def relic_response(relic: Relic) -> RelicResponse:
         pandasdf=description["pandasdf"],
         files=description["files"],
         notebooks=description["notebooks"],
-        videos = description["videos"]
+        videos=description["videos"],
     )
