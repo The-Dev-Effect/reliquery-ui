@@ -23,6 +23,7 @@ def cache_no_store(f):
 def get_router(Relic=Relic, Reliquery=Reliquery):
     router = APIRouter()
     rq = Reliquery()
+
     @router.get("/sync_reliquery", response_model=None)
     async def reliquery_relic() -> None:
         rq.sync_reliquery()
@@ -46,7 +47,7 @@ def get_router(Relic=Relic, Reliquery=Reliquery):
         )
 
         return relic_response(relic)
-
+        
     @router.get(
         "/reliquery/{storage_name}/{relic_type}/{name}/html/{html}",
         response_class=HTMLResponse,
